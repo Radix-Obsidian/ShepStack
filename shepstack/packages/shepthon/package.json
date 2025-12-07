@@ -1,0 +1,26 @@
+{
+  "name": "@shep/shepthon",
+  "version": "0.0.1",
+  "description": "Shepthon: Python-targeting compiler for Shep",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "scripts": {
+    "build": "tsc -b",
+    "lint": "echo 'Lint not yet configured'",
+    "test": "node --test dist/tests/shepthon-smoke.test.js"
+  },
+  "dependencies": {
+    "@shep/core": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/node": "^20.10.0",
+    "typescript": "^5.3.3"
+  }
+}
