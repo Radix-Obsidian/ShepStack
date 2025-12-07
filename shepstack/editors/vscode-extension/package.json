@@ -1,0 +1,59 @@
+{
+  "name": "vscode-shep",
+  "displayName": "Shep Language Support",
+  "description": "Language support for Shep in Visual Studio Code",
+  "version": "0.0.1",
+  "publisher": "shep",
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "categories": [
+    "Programming Languages",
+    "Linters"
+  ],
+  "activationEvents": [
+    "onLanguage:sheplang",
+    "onLanguage:shepthon"
+  ],
+  "main": "dist/extension.js",
+  "contributes": {
+    "languages": [
+      {
+        "id": "sheplang",
+        "aliases": [
+          "Sheplang",
+          "sheplang"
+        ],
+        "extensions": [
+          ".sheplang",
+          ".shep"
+        ],
+        "configuration": "./language-configuration.json"
+      },
+      {
+        "id": "shepthon",
+        "aliases": [
+          "Shepthon",
+          "shepthon"
+        ],
+        "extensions": [
+          ".shepthon"
+        ],
+        "configuration": "./language-configuration.json"
+      }
+    ]
+  },
+  "scripts": {
+    "build": "tsc -b",
+    "lint": "echo 'Lint not yet configured'",
+    "test": "echo 'Tests not yet configured'"
+  },
+  "devDependencies": {
+    "@types/node": "^20.10.0",
+    "@types/vscode": "^1.85.0",
+    "typescript": "^5.3.3"
+  },
+  "dependencies": {
+    "vscode-languageclient": "^9.0.1"
+  }
+}
