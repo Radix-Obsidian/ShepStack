@@ -1,0 +1,19 @@
+{
+  "name": "budget-dashboard-example",
+  "version": "0.0.1",
+  "description": "Example Shep application: budget dashboard",
+  "type": "module",
+  "scripts": {
+    "build": "echo 'Build not yet implemented'",
+    "dev": "echo 'Dev server not yet implemented'",
+    "test": "echo 'Tests not yet implemented'"
+  },
+  "dependencies": {
+    "@shep/core": "workspace:*",
+    "@shep/sheplang": "workspace:*",
+    "@shep/shepthon": "workspace:*"
+  },
+  "devDependencies": {
+    "typescript": "^5.3.3"
+  }
+}

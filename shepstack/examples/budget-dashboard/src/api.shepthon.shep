@@ -1,0 +1,83 @@
+// Budget Dashboard - Shepthon Backend
+// This is a placeholder Shepthon source file demonstrating the intended syntax
+
+entity Budget {
+  id: string
+  name: string
+  limit: number
+  spent: number
+  month: string
+  user_id: string
+  created_at: datetime
+  updated_at: datetime
+}
+
+entity BudgetItem {
+  id: string
+  budget_id: string
+  description: string
+  amount: number
+  category: string
+  date: datetime
+}
+
+endpoint GET /api/budgets {
+  query month?: string
+  
+  return Budget[]
+}
+
+endpoint GET /api/budgets/:id {
+  params id: string
+  
+  return Budget | null
+}
+
+endpoint POST /api/budgets {
+  body budget: CreateBudgetInput
+  
+  return Budget
+}
+
+endpoint PUT /api/budgets/:id {
+  params id: string
+  body budget: UpdateBudgetInput
+  
+  return Budget
+}
+
+endpoint DELETE /api/budgets/:id {
+  params id: string
+  
+  return boolean
+}
+
+endpoint GET /api/budgets/:id/items {
+  params id: string
+  
+  return BudgetItem[]
+}
+
+endpoint POST /api/budgets/:id/items {
+  params id: string
+  body item: CreateBudgetItemInput
+  
+  return BudgetItem
+}
+
+model CreateBudgetInput {
+  name: string
+  limit: number
+  month: string
+}
+
+model UpdateBudgetInput {
+  name?: string
+  limit?: number
+}
+
+model CreateBudgetItemInput {
+  description: string
+  amount: number
+  category: string
+}

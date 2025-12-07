@@ -1,0 +1,209 @@
+# SupportAI - AI-Powered Customer Support Platform
+# A founder's spec for an AI customer support SaaS
+
+app SupportAI
+
+# =============================================================================
+# ENTITIES (Data Models)
+# =============================================================================
+
+entity Company:
+  fields:
+    - name: text, required
+    - email: email, required, unique
+    - plan: enum(starter, pro, enterprise)
+    - apiKey: text, unique
+    - createdAt: datetime
+
+entity KnowledgeBase:
+  fields:
+    - company: Company (relationship)
+    - title: text, required
+    - content: text, required
+    - uploadedAt: datetime
+
+entity Conversation:
+  fields:
+    - company: Company (relationship)
+    - customerId: text, required
+    - status: enum(open, resolved, escalated)
+    - createdAt: datetime
+
+entity Message:
+  fields:
+    - conversation: Conversation (relationship)
+    - role: enum(customer, ai, agent)
+    - content: text, required
+    - confidence: number
+    - timestamp: datetime
+    - sentiment: ai("classify as positive, neutral, or negative")
+    - summary: ai("summarize in one sentence")
+
+entity Escalation:
+  fields:
+    - conversation: Conversation (relationship)
+    - reason: text
+    - assignedAgent: text
+    - resolvedAt: datetime
+
+# =============================================================================
+# SCREENS (UI Definitions)
+# =============================================================================
+
+screen SignUp:
+  kind: form
+  fields: [name, email, password]
+  action: "Create Account"
+
+screen Dashboard:
+  kind: dashboard
+  widgets:
+    - "Total Questions Answered" (number)
+    - "Escalation Rate" (percentage)
+    - "Customer Satisfaction" (rating)
+    - "Recent Conversations" (list)
+
+screen KnowledgeBaseUpload:
+  kind: form
+  entity: KnowledgeBase
+  fields: [title, content]
+  action: "Upload Document"
+
+screen KnowledgeBaseList:
+  kind: list
+  entity: KnowledgeBase
+  filters: [uploadedAt]
+  actions: [view, edit, delete]
+
+screen ConversationList:
+  kind: list
+  entity: Conversation
+  filters: [status, createdAt]
+  actions: [view, resolve, escalate]
+
+screen ConversationDetail:
+  kind: detail
+  entity: Conversation
+  actions: [sendMessage, escalate, resolve]
+
+screen AgentDashboard:
+  kind: dashboard
+  widgets:
+    - "Pending Escalations" (list)
+    - "Response Time" (number)
+    - "Resolution Rate" (percentage)
+
+screen CreateStartup:
+  kind: wizard
+  entity: Company
+  steps:
+    - "Basic Info" → [name, email]
+    - "Plan Selection" → [plan]
+
+# =============================================================================
+# FLOWS (User Journeys)
+# =============================================================================
+
+flow "Company signs up":
+  1. User visits landing page
+  2. Clicks "Start Free Trial"
+  3. Fills SignUp form
+  4. Account created
+  5. Redirect to Dashboard
+
+flow "Company uploads knowledge base":
+  1. Company goes to Dashboard
+  2. Clicks "Upload Document"
+  3. Fills KnowledgeBaseUpload form
+  4. Document stored
+  5. AI indexes it for search
+
+flow "Customer asks a question":
+  1. Customer opens chat widget
+  2. Types question
+  3. ai: search knowledge base for relevant articles
+  4. ai: generate answer based on knowledge base context
+  5. Answer displayed to customer
+  6. Customer rates answer
+
+flow "AI escalates to agent":
+  1. ai: confidence score below 60 percent
+  2. Create Escalation record
+  3. Notify agent via email
+  4. Agent sees in AgentDashboard
+  5. Agent responds to customer
+  6. Conversation marked resolved
+
+flow "Agent resolves escalation":
+  1. Agent reads conversation
+  2. Types response
+  3. Sends to customer
+  4. Marks as resolved
+  5. Analytics updated
+
+# =============================================================================
+# RULES (Business Constraints)
+# =============================================================================
+
+rule "Only company admins can upload documents":
+  if user.role != admin → show error "Permission denied"
+
+rule "Free plan limited to 100 questions per month":
+  if plan == starter AND questionsThisMonth >= 100 → show error "Upgrade to continue"
+
+rule "Pro plan limited to 1000 questions per month":
+  if plan == pro AND questionsThisMonth >= 1000 → show error "Upgrade to enterprise"
+
+rule "AI must have confidence above 60 percent to answer":
+  if aiConfidence < 60 → escalate to agent
+
+rule "Auto-escalate frustrated customers":
+  if ai(message.content, "sounds frustrated or angry") → escalate to agent
+
+rule "Flag potential spam":
+  if ai(message.content, "looks like spam or marketing") → mark as spam
+
+rule "Escalations must be resolved within 24 hours":
+  if escalation.age > 24hours AND status != resolved → alert agent
+
+rule "Only assigned agent can respond to escalation":
+  if message.sender != assignedAgent → show error "Not assigned"
+
+# =============================================================================
+# INTEGRATIONS (External Services)
+# =============================================================================
+
+integration Claude:
+  endpoint: "https://api.anthropic.com/v1/messages"
+  purpose: "Generate AI answers from knowledge base"
+
+integration Stripe:
+  endpoint: "https://api.stripe.com"
+  purpose: "Handle payments and plan upgrades"
+
+integration SendGrid:
+  endpoint: "https://api.sendgrid.com"
+  purpose: "Send email notifications to agents"
+
+integration S3:
+  endpoint: "https://s3.amazonaws.com"
+  purpose: "Store uploaded documents"
+
+# =============================================================================
+# EVENTS (Analytics)
+# =============================================================================
+
+event "question_answered":
+  fields: [companyId, conversationId, confidence, responseTime]
+
+event "question_escalated":
+  fields: [companyId, conversationId, reason]
+
+event "escalation_resolved":
+  fields: [companyId, escalationId, resolutionTime, agentId]
+
+event "document_uploaded":
+  fields: [companyId, documentId, size]
+
+event "plan_upgraded":
+  fields: [companyId, fromPlan, toPlan]

@@ -1,0 +1,61 @@
+// Budget Dashboard - Sheplang Frontend
+// This is a placeholder Sheplang source file demonstrating the intended syntax
+
+component BudgetDashboard {
+  state budgets = []
+  state selectedMonth = "2024-01"
+
+  onMount() {
+    // Fetch budgets from API
+    this.fetchBudgets()
+  }
+
+  fetchBudgets() {
+    // TODO: Call GET /api/budgets
+  }
+
+  render() {
+    return <div class="dashboard">
+      <h1>Budget Dashboard</h1>
+      <MonthSelector selected={selectedMonth} onChange={setSelectedMonth} />
+      <BudgetList budgets={budgets} />
+    </div>
+  }
+}
+
+component MonthSelector(selected: string, onChange: (month: string) => void) {
+  render() {
+    return <select value={selected} onChange={onChange}>
+      <option value="2024-01">January 2024</option>
+      <option value="2024-02">February 2024</option>
+    </select>
+  }
+}
+
+component BudgetList(budgets: Budget[]) {
+  render() {
+    return <div class="budget-list">
+      {budgets.map(budget => (
+        <BudgetCard key={budget.id} budget={budget} />
+      ))}
+    </div>
+  }
+}
+
+component BudgetCard(budget: Budget) {
+  render() {
+    return <div class="budget-card">
+      <h3>{budget.name}</h3>
+      <p>Limit: ${budget.limit}</p>
+      <p>Spent: ${budget.spent}</p>
+    </div>
+  }
+}
+
+model Budget {
+  id: string
+  name: string
+  limit: number
+  spent: number
+  month: string
+}
