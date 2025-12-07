@@ -1,0 +1,15 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "outDir": "./dist",
+    "rootDir": "src",
+    "types": ["node"]
+  },
+  "include": ["src"],
+  "exclude": ["bin", "tests"],
+  "references": [
+    { "path": "../shep-core" },
+    { "path": "../sheplang" },
+    { "path": "../shepthon" }
+  ]
+}

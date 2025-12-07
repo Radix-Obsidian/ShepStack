@@ -1,0 +1,25 @@
+{
+  "name": "@shep/cli",
+  "version": "0.0.1",
+  "description": "Shep CLI: Developer tools for the Shep language",
+  "type": "module",
+  "main": "dist/index.js",
+  "bin": {
+    "shep": "bin/shep.js"
+  },
+  "scripts": {
+    "build": "tsc -b",
+    "lint": "echo 'Lint not yet configured'",
+    "test": "node --test dist/tests/cli-smoke.test.js"
+  },
+  "dependencies": {
+    "@shep/core": "workspace:*",
+    "@shep/sheplang": "workspace:*",
+    "@shep/shepthon": "workspace:*",
+    "commander": "^11.1.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.10.0",
+    "typescript": "^5.3.3"
+  }
+}
