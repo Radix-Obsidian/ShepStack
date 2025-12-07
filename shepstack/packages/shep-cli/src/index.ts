@@ -8,6 +8,7 @@ import { devCommand } from "./commands/dev.js";
 import { newCommand } from "./commands/new.js";
 import { styleCommand } from "./commands/style.js";
 import { verifyCommand } from "./commands/verify.js";
+import { draftCommand } from "./commands/draft.js";
 
 const program = new Command();
 
@@ -22,6 +23,7 @@ program.addCommand(devCommand);
 program.addCommand(newCommand);
 program.addCommand(styleCommand);
 program.addCommand(verifyCommand);
+program.addCommand(draftCommand);
 
 /**
  * Main entry point for the CLI.
