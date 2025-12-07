@@ -1,0 +1,221 @@
+{
+  "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+  "name": "Shep",
+  "scopeName": "source.shep",
+  "patterns": [
+    { "include": "#comments" },
+    { "include": "#app-declaration" },
+    { "include": "#entity" },
+    { "include": "#screen" },
+    { "include": "#flow" },
+    { "include": "#rule" },
+    { "include": "#integration" },
+    { "include": "#event" },
+    { "include": "#strings" },
+    { "include": "#keywords" },
+    { "include": "#types" },
+    { "include": "#ai" },
+    { "include": "#numbers" },
+    { "include": "#operators" }
+  ],
+  "repository": {
+    "comments": {
+      "patterns": [
+        {
+          "name": "comment.line.number-sign.shep",
+          "match": "#.*$"
+        }
+      ]
+    },
+    "app-declaration": {
+      "patterns": [
+        {
+          "match": "^(app)\\s+(\"[^\"]+\")",
+          "captures": {
+            "1": { "name": "keyword.control.shep" },
+            "2": { "name": "string.quoted.double.shep" }
+          }
+        }
+      ]
+    },
+    "entity": {
+      "patterns": [
+        {
+          "match": "^(entity)\\s+([A-Z][a-zA-Z0-9_]*)\\s*:",
+          "captures": {
+            "1": { "name": "keyword.declaration.entity.shep" },
+            "2": { "name": "entity.name.type.shep" }
+          }
+        }
+      ]
+    },
+    "screen": {
+      "patterns": [
+        {
+          "match": "^(screen)\\s+([A-Z][a-zA-Z0-9_]*)\\s*\\((form|list|detail|dashboard|wizard|api)\\)\\s*:",
+          "captures": {
+            "1": { "name": "keyword.declaration.screen.shep" },
+            "2": { "name": "entity.name.type.screen.shep" },
+            "3": { "name": "support.type.screen-kind.shep" }
+          }
+        }
+      ]
+    },
+    "flow": {
+      "patterns": [
+        {
+          "match": "^(flow)\\s+(\"[^\"]+\")\\s*:",
+          "captures": {
+            "1": { "name": "keyword.declaration.flow.shep" },
+            "2": { "name": "string.quoted.double.shep" }
+          }
+        },
+        {
+          "match": "^\\s*(\\d+)\\.",
+          "captures": {
+            "1": { "name": "constant.numeric.step.shep" }
+          }
+        },
+        {
+          "match": "^\\s*(ai):",
+          "captures": {
+            "1": { "name": "keyword.control.ai.shep" }
+          }
+        }
+      ]
+    },
+    "rule": {
+      "patterns": [
+        {
+          "match": "^(rule)\\s+(\"[^\"]+\")\\s*:",
+          "captures": {
+            "1": { "name": "keyword.declaration.rule.shep" },
+            "2": { "name": "string.quoted.double.shep" }
+          }
+        },
+        {
+          "match": "\\b(if)\\b",
+          "name": "keyword.control.conditional.shep"
+        },
+        {
+          "match": "→|->",
+          "name": "keyword.operator.arrow.shep"
+        }
+      ]
+    },
+    "integration": {
+      "patterns": [
+        {
+          "match": "^(integration)\\s+([A-Z][a-zA-Z0-9_]*)\\s*:",
+          "captures": {
+            "1": { "name": "keyword.declaration.integration.shep" },
+            "2": { "name": "entity.name.type.integration.shep" }
+          }
+        }
+      ]
+    },
+    "event": {
+      "patterns": [
+        {
+          "match": "^(event)\\s+([A-Z][a-zA-Z0-9_]*)\\s*:",
+          "captures": {
+            "1": { "name": "keyword.declaration.event.shep" },
+            "2": { "name": "entity.name.type.event.shep" }
+          }
+        }
+      ]
+    },
+    "strings": {
+      "patterns": [
+        {
+          "name": "string.quoted.double.shep",
+          "begin": "\"",
+          "end": "\"",
+          "patterns": [
+            {
+              "name": "constant.character.escape.shep",
+              "match": "\\\\."
+            }
+          ]
+        }
+      ]
+    },
+    "keywords": {
+      "patterns": [
+        {
+          "name": "keyword.declaration.shep",
+          "match": "\\b(app|entity|screen|flow|rule|integration|event)\\b"
+        },
+        {
+          "name": "keyword.other.shep",
+          "match": "\\b(fields|description|version|purpose|endpoint|entity|widgets|steps)\\b"
+        },
+        {
+          "name": "keyword.modifier.shep",
+          "match": "\\((required)\\)",
+          "captures": {
+            "1": { "name": "keyword.modifier.required.shep" }
+          }
+        }
+      ]
+    },
+    "types": {
+      "patterns": [
+        {
+          "name": "support.type.primitive.shep",
+          "match": "\\b(text|number|money|email|date|datetime|boolean|file|image)\\b"
+        },
+        {
+          "match": "\\b(enum)\\(([^)]+)\\)",
+          "captures": {
+            "1": { "name": "support.type.enum.shep" },
+            "2": { "name": "string.unquoted.enum-values.shep" }
+          }
+        },
+        {
+          "match": "\\b(relationship|list)\\(([A-Z][a-zA-Z0-9_]*)\\)",
+          "captures": {
+            "1": { "name": "support.type.reference.shep" },
+            "2": { "name": "entity.name.type.shep" }
+          }
+        }
+      ]
+    },
+    "ai": {
+      "patterns": [
+        {
+          "match": "\\b(ai)\\(",
+          "captures": {
+            "1": { "name": "keyword.control.ai.shep" }
+          }
+        },
+        {
+          "match": "\\b(ai)\\s*:",
+          "captures": {
+            "1": { "name": "keyword.control.ai.shep" }
+          }
+        }
+      ]
+    },
+    "numbers": {
+      "patterns": [
+        {
+          "name": "constant.numeric.shep",
+          "match": "\\b\\d+(\\.\\d+)?\\b"
+        }
+      ]
+    },
+    "operators": {
+      "patterns": [
+        {
+          "name": "keyword.operator.shep",
+          "match": "==|!=|<=|>=|<|>|&&|\\|\\||!"
+        },
+        {
+          "name": "keyword.operator.assignment.shep",
+          "match": "="
+        }
+      ]
+    }
+  }
+}

@@ -19,14 +19,28 @@
   "contributes": {
     "languages": [
       {
+        "id": "shep",
+        "aliases": [
+          "Shep",
+          "shep"
+        ],
+        "extensions": [
+          ".shep"
+        ],
+        "configuration": "./language-configuration.json",
+        "icon": {
+          "light": "./icons/shep-light.png",
+          "dark": "./icons/shep-dark.png"
+        }
+      },
+      {
         "id": "sheplang",
         "aliases": [
           "Sheplang",
           "sheplang"
         ],
         "extensions": [
-          ".sheplang",
-          ".shep"
+          ".sheplang"
         ],
         "configuration": "./language-configuration.json"
       },
@@ -40,6 +54,13 @@
           ".shepthon"
         ],
         "configuration": "./language-configuration.json"
+      }
+    ],
+    "grammars": [
+      {
+        "language": "shep",
+        "scopeName": "source.shep",
+        "path": "./syntaxes/shep.tmLanguage.json"
       }
     ]
   },
