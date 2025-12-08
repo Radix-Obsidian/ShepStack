@@ -6,6 +6,7 @@ import { Command } from "commander";
 import { readFileSync, writeFileSync, mkdirSync } from "node:fs";
 import { dirname, basename } from "node:path";
 import { parseSpec, verifySpec, ShepSpec, VerificationResult, Rule, FlowStep, Field } from "@shep/core";
+import { generateAuthentication, generateAdminDashboard, generateRequirements } from "../generators/index.js";
 
 export const compileCommand = new Command("compile")
   .description("Compile a .shep spec file")
@@ -85,7 +86,22 @@ export const compileCommand = new Command("compile")
         generateAIClient(spec, options.output);
       }
 
+      // Always generate authentication (non-technical founders need this)
+      generateAuthentication(spec, options.output);
+
+      // Always generate admin dashboard (founders need to manage data)
+      generateAdminDashboard(spec, options.output);
+
+      // Generate requirements.txt for Python dependencies
+      generateRequirements(spec, options.output, hasAIPrimitives(spec));
+
       console.log(`\n🎉 Done! Generated code in ${options.output}/\n`);
+      console.log(`   Next steps:`);
+      console.log(`   1. cd ${options.output}`);
+      console.log(`   2. pip install -r requirements.txt`);
+      console.log(`   3. uvicorn main:app --reload --port 3001`);
+      console.log(`   4. Open http://localhost:3001/docs for API docs`);
+      console.log(`   5. Open http://localhost:3001/admin for admin panel\n`);
 
     } catch (error) {
       if (error instanceof Error) {
