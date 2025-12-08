@@ -1,6 +1,6 @@
 {
   "name": "@goldensheepai/shep-lsp",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Shep Language Server Protocol implementation",
   "repository": "https://github.com/Radix-Obsidian/ShepStack/tree/main/packages/shep-lsp",
   "homepage": "https://github.com/Radix-Obsidian/ShepStack",

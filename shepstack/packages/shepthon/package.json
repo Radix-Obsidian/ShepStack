@@ -1,6 +1,6 @@
 {
   "name": "@goldensheepai/shep-shepthon",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Shepthon: Python-targeting compiler for Shep",
   "repository": "https://github.com/Radix-Obsidian/ShepStack/tree/main/packages/shepthon",
   "homepage": "https://github.com/Radix-Obsidian/ShepStack",

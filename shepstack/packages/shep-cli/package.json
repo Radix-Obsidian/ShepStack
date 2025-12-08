@@ -1,6 +1,6 @@
 {
   "name": "@goldensheepai/shep-cli",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Shep CLI: Compile, verify, and deploy Shep specifications",
   "repository": "https://github.com/Radix-Obsidian/ShepStack/tree/main/packages/shep-cli",
   "homepage": "https://github.com/Radix-Obsidian/ShepStack",

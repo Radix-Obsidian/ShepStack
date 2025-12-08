@@ -9,9 +9,9 @@
 </p>
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=flat-square)](https://opensource.org/licenses/MIT)
-[![npm](https://img.shields.io/npm/v/@goldensheepai/shep-cli?style=flat-square)](https://www.npmjs.com/package/@goldensheepai/shep-cli)
-[![VS Code](https://img.shields.io/visual-studio-marketplace/v/goldensheepai.sheplang?style=flat-square)](https://marketplace.visualstudio.com/items?itemName=goldensheepai.sheplang)
-[![Open VSX](https://img.shields.io/open-vsx/v/goldensheepai.sheplang?style=flat-square)](https://open-vsx.org/extension/goldensheepai/sheplang)
+[![npm](https://img.shields.io/npm/v/@goldensheepai/shep-cli?style=flat-square&registry_uri=https://registry.npmjs.org)](https://www.npmjs.com/package/@goldensheepai/shep-cli)
+[![VS Code](https://img.shields.io/visual-studio-marketplace/v/GoldenSheepAI.sheplang?style=flat-square)](https://marketplace.visualstudio.com/items?itemName=GoldenSheepAI.sheplang)
+[![Windsurf Reviews](https://img.shields.io/badge/Windsurf-Reviews-6B46C1?style=flat-square)](https://marketplace.windsurf.com/extension/goldensheepai/sheplang/reviews)
 [![GitHub stars](https://img.shields.io/github/stars/Radix-Obsidian/ShepStack?style=flat-square)](https://github.com/Radix-Obsidian/ShepStack)
 [![GitHub release](https://img.shields.io/github/release/Radix-Obsidian/ShepStack?style=flat-square)](https://github.com/Radix-Obsidian/ShepStack/releases)
 
