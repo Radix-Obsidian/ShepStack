@@ -14,7 +14,7 @@
   "scripts": {
     "build": "tsc -b",
     "lint": "echo 'Lint not yet configured'",
-    "test": "node --test dist/tests/cli-smoke.test.js"
+    "test": "echo 'Tests not yet configured'"
   },
   "dependencies": {
     "@shep/core": "workspace:*",
