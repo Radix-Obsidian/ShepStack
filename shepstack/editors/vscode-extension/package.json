@@ -1,8 +1,8 @@
 {
   "name": "sheplang",
   "displayName": "ShepLang",
-  "description": "Language support for ShepLang - An AI-native programming language for describing software products",
-  "version": "0.1.1",
+  "description": "Language support for ShepLang - AI-native programming language",
+  "version": "0.1.2",
   "publisher": "Radix-Obsidian",
   "engines": {
     "vscode": "^1.85.0"
@@ -23,10 +23,7 @@
     "type": "git",
     "url": "https://github.com/Radix-Obsidian/ShepStack"
   },
-  "activationEvents": [
-    "onLanguage:shep"
-  ],
-  "main": "dist/extension.js",
+    "main": "dist/extension.js",
   "contributes": {
     "languages": [
       {
