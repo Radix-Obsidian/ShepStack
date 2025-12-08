@@ -1,7 +1,11 @@
 {
   "name": "@shep/cli",
-  "version": "0.0.1",
-  "description": "Shep CLI: Developer tools for the Shep language",
+  "version": "0.1.0",
+  "description": "Shep CLI: Compile, verify, and deploy Shep specifications",
+  "repository": "https://github.com/Radix-Obsidian/ShepStack/tree/main/packages/shep-cli",
+  "homepage": "https://github.com/Radix-Obsidian/ShepStack",
+  "bugs": "https://github.com/Radix-Obsidian/ShepStack/issues",
+  "license": "MIT",
   "type": "module",
   "main": "dist/index.js",
   "bin": {
@@ -21,5 +25,9 @@
   "devDependencies": {
     "@types/node": "^20.10.0",
     "typescript": "^5.3.3"
+  },
+  "files": ["dist", "bin"],
+  "publishConfig": {
+    "access": "public"
   }
 }

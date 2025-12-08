@@ -1,8 +1,12 @@
 {
   "name": "shepstack",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "private": true,
-  "description": "The Shep language stack: a vertical-slice, spec-first language ecosystem",
+  "description": "Write a spec. Get a full-stack app. The fastest way for non-technical founders to build production applications.",
+  "repository": "https://github.com/Radix-Obsidian/ShepStack",
+  "homepage": "https://github.com/Radix-Obsidian/ShepStack",
+  "bugs": "https://github.com/Radix-Obsidian/ShepStack/issues",
+  "license": "MIT",
   "type": "module",
   "engines": {
     "node": ">=20.0.0",

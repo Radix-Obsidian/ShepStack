@@ -1,7 +1,11 @@
 {
   "name": "@shep/core",
-  "version": "0.0.1",
-  "description": "Shep language core: tokens, AST, type system, and parser scaffolding",
+  "version": "0.1.0",
+  "description": "Shep language core: parser, verifier, type system, and code generation",
+  "repository": "https://github.com/Radix-Obsidian/ShepStack/tree/main/packages/shep-core",
+  "homepage": "https://github.com/Radix-Obsidian/ShepStack",
+  "bugs": "https://github.com/Radix-Obsidian/ShepStack/issues",
+  "license": "MIT",
   "type": "module",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -19,5 +23,9 @@
   "devDependencies": {
     "@types/node": "^20.10.0",
     "typescript": "^5.3.3"
+  },
+  "files": ["dist"],
+  "publishConfig": {
+    "access": "public"
   }
 }
