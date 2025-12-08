@@ -1,237 +1,228 @@
-# Shep Philosophy
+# ShepLang Philosophy
 
-## What Shep Is
+## What ShepLang Is
 
-**Shep is a code generator for non-technical founders.**
+**ShepLang is an AI-native programming language for describing software products.**
 
-Founders describe their product in a structured specification. Shep generates production-ready Python (FastAPI) + TypeScript (React) + database schemas.
+It has first-class concepts like `app`, `data`, `view`, `action`, and `task`, plus `ai` as a built-in verb. A ShepLang program compiles to Python + JavaScript services (via ShepThon) with auth, admin, and APIs generated automatically.
 
-**One spec → Full-stack working application**
+**Both humans and LLMs can read and write ShepLang.**
 
-### The AI Differentiator
+### Why a New Language?
 
-Shep is the **first spec language with AI built in as a primitive**. AI is not an integration — it's a verb in the language.
+Existing approaches fail in different ways:
+
+| Approach | Problem |
+|----------|---------|
+| Python/JS | Too low-level, too much boilerplate |
+| No-code builders | Locked in, limited, can't customize |
+| YAML/JSON configs | No semantics, no verification |
+| DSLs | Usually incomplete, poor tooling |
+
+ShepLang is designed from the ground up to be:
+- **Writable by AI** — Structured, unambiguous syntax
+- **Readable by humans** — Clear domain concepts
+- **Verifiable** — Strong type system, static analysis
+- **Compilable** — Real code generation, not interpretation
+
+### The AI Primitive
+
+ShepLang is the **first programming language with AI as a built-in verb**.
 
 ```shep
-rule "Auto-escalate angry customers":
-  if ai(ticket.message, "sounds frustrated") → escalate
+action EscalateTicket {
+  if ai(message, "sounds frustrated") {
+    set status = escalated
+  }
+}
 ```
 
-Founders describe AI intent in plain English. Shep handles prompts, API calls, caching, and error handling.
+AI is not an API integration. It's a language construct with defined semantics.
 
 ---
 
-## Core Principles
+## Language Design Principles
 
-### 1. Founders Describe, Developers Build
+### 1. Domain-Specific Concepts
 
-Shep is designed for **non-technical founders and designers** who think in terms of:
+ShepLang has six top-level constructs:
 
-- What data exists (entities)
-- What screens users see
-- What flows users follow
-- What rules must be enforced
+| Construct | Purpose |
+|-----------|---------|
+| `app` | Program declaration and metadata |
+| `data` | Data model definitions (like structs/classes) |
+| `view` | UI component definitions |
+| `action` | Business logic and mutations |
+| `task` | Background/scheduled processes |
+| `ai` | AI-powered computation |
 
-Shep translates this intent into working code that developers can read, modify, and extend.
+These map directly to how software products are structured.
 
-### 2. Specification-First Development
+### 2. Static Verification
 
-The spec is the source of truth. It describes:
+Before compilation, ShepLang verifies:
 
-- **Entities**: What data the app manages
-- **Screens**: What users see and interact with
-- **Flows**: How users move through the app
-- **Rules**: What constraints must be enforced
-- **Integrations**: What external services are used
+- ✅ All types are consistent
+- ✅ All references resolve
+- ✅ All constraints are satisfiable
+- ✅ No dead code or orphaned definitions
+- ✅ AI prompts have valid structure
 
-The spec is written in plain English-like syntax, not code.
+**If the program compiles, the generated code works.**
 
-### 3. One Spec, Multiple Targets
+### 3. Multi-Target Compilation
 
-A single `.shep` file generates:
+A single `.shep` program compiles to:
 
-- **Python backend** (FastAPI + Pydantic + SQLAlchemy)
-- **TypeScript frontend** (React + routing)
-- **Database schema** (PostgreSQL)
-- **API contracts** (types match everywhere)
+- **ShepThon** → Python (FastAPI + Pydantic)
+- **ShepLang-JS** → TypeScript (React + types)
+- **ShepSQL** → PostgreSQL (schema + migrations)
 
-This eliminates duplication and keeps frontend and backend in sync.
+The compiler ensures type consistency across all targets.
 
-### 4. Verification-First Compilation
+### 4. Idiomatic Output
 
-Before generating code, Shep verifies:
+Generated code follows best practices:
 
-- ✅ All entities are valid
-- ✅ All screens reference valid entities
-- ✅ All flows reference valid screens
-- ✅ All rules are consistent
-- ✅ Frontend and backend types match
-- ✅ No orphaned fields or screens
+- Python: PEP 8, type hints, async/await
+- TypeScript: ESLint rules, strict mode
+- SQL: Proper normalization, indexes
 
-**If the spec compiles, the code works.**
+Developers can read, understand, and extend the generated code.
 
-### 5. Generated Code Is Real Code
+### 5. AI as a First-Class Citizen
 
-Shep doesn't create proprietary runtime code. It generates:
+The `ai` construct is a language primitive, not a library:
 
-- Idiomatic Python (FastAPI, Pydantic, SQLAlchemy)
-- Idiomatic TypeScript (React, standard patterns)
-- Standard SQL (PostgreSQL)
+```shep
+# AI-derived field
+data Article {
+  content: text
+  summary: ai("summarize in 2 sentences")
+}
 
-Developers can read, modify, and extend the generated code. There's no lock-in.
+# AI condition
+action Moderate {
+  if ai(text, "is spam") { reject }
+}
 
-### 6. AI Is a Verb, Not an Integration
-
-Most tools treat AI as an external API you have to wire up. In Shep, AI is a **language primitive**:
-
-- **In rules**: `if ai(message, "sounds frustrated") → escalate`
-- **In flows**: `ai: categorize and route to correct team`
-- **In fields**: `sentiment: ai("classify as positive, neutral, negative")`
-
-The founder writes intent. Shep generates:
-
-- LLM API calls (Claude/OpenAI)
-- Prompt construction with context
-- Caching for repeated queries
-- Retry logic and error handling
-- Cost tracking and rate limiting
-
-**AI behavior is visible in the spec, not buried in code.**
-
-### 7. AI-Assisted Spec Writing
-
-Founders can generate first-draft specs from plain English:
-
-```bash
-shep draft "I want a SaaS for dog groomers to manage appointments"
+# AI step
+task Categorize {
+  ai: classify and route
+}
 ```
 
-This creates a `.shep` file with suggested entities, screens, flows, and rules. The founder edits the human-readable spec — not code.
+The compiler generates:
+- LLM API calls
+- Prompt construction
+- Response parsing
+- Caching and retry logic
+- Error handling
 
-### 8. Incremental Adoption
+### 6. Designed for AI Authorship
 
-Shep works for:
+ShepLang syntax is optimized for LLMs to write:
 
-- **Greenfield projects**: Start with a spec, generate everything
-- **Existing codebases**: Migrate pieces incrementally
-- **Hybrid approaches**: Mix generated and hand-written code
+- **Unambiguous grammar** — No edge cases or ambiguity
+- **Structured format** — Easy to parse and validate
+- **Domain vocabulary** — Clear semantic meaning
+- **Composable** — Small, combinable constructs
 
----
-
-## Design Goals
-
-### Enable Non-Technical Founders to Build
-
-Founders shouldn't need to hire developers to validate their idea. Shep lets them:
-
-- Describe their product in plain English
-- Get working code in hours, not weeks
-- Deploy to real infrastructure
-- Iterate based on user feedback
-
-### Generate Production-Ready Code
-
-Generated code must be:
-
-- **Idiomatic**: Follows Python/TypeScript conventions
-- **Performant**: No unnecessary overhead
-- **Secure**: Built-in validation and error handling
-- **Testable**: Generated tests included
-- **Deployable**: Works on standard infrastructure
-
-### Catch Errors at Compile Time
-
-The verification engine catches:
-
-- Type mismatches
-- Constraint violations
-- Wiring errors
-- Missing integrations
-
-**Errors are caught before code is generated, not after deployment.**
-
-### Reduce Time to Market
-
-From idea to deployed product:
-
-- **Traditional**: 6-12 weeks (hire dev, build, test, deploy)
-- **With Shep**: 1-2 days (write spec, generate, deploy)
+An LLM can generate a complete ShepLang program from a natural language description.
 
 ---
 
-## What Shep Is NOT
+## What ShepLang Is NOT
 
-- **Not a visual builder**: No drag-and-drop. You write structured specs.
-- **Not a framework**: Shep generates code that uses standard frameworks (FastAPI, React).
-- **Not a platform**: Generated code runs on your infrastructure (Vercel, Railway, AWS).
-- **Not a database**: Shep generates schemas for standard databases (PostgreSQL).
-- **Not a magic bullet**: You still need to understand your product and business logic.
+- **Not an app builder** — It's a programming language with syntax, AST, and compiler
+- **Not a visual tool** — You write code (or AI writes it for you)
+- **Not a framework** — The compiler generates framework code (FastAPI, React)
+- **Not a platform** — Generated code runs anywhere
+- **Not interpretation** — Programs are compiled, not executed by a runtime
 
 ---
 
-## The Golden Sheep Methodology
+## Compilation Model
 
-Shep is built on the **Golden Sheep AI Methodology**:
+```
+Source (.shep)
+    │
+    ├── Lexer → Tokens
+    │
+    ├── Parser → AST
+    │
+    ├── Type Checker → Typed AST
+    │
+    ├── Verifier → Verified AST
+    │
+    └── Code Generator
+            │
+            ├── ShepThon → Python
+            ├── ShepLang-JS → TypeScript
+            └── ShepSQL → PostgreSQL
+```
 
-1. **Vertical Slice Delivery**: Build one complete feature at a time (spec → code → deploy)
-2. **Full-Stack Reality Testing**: Test with real services, real data, real deployments
-3. **Integration-First Verification**: Verify wiring before shipping
-4. **Verification-First Architecture**: Catch errors at compile time
-
-This methodology is only possible because Shep enforces it at the language level.
+Each phase has clear inputs, outputs, and error handling.
 
 ---
 
 ## Target Users
 
-### ✅ Non-Technical Founders
+### Primary: AI Agents + LLMs
 
-You want to build a real SaaS product without hiring a dev team. Shep lets you:
+ShepLang is designed to be **machine-written**:
+- Coding assistants can generate ShepLang from descriptions
+- Agents can modify ShepLang programs
+- CI/CD can verify and compile automatically
 
-- Describe your product
-- Get working code
-- Deploy and iterate
+### Secondary: Technical Founders + Developers
 
-### ✅ Solo Developers
+If you understand programming:
+- Write ShepLang directly
+- Faster than Python + React + SQL
+- Strong verification catches errors early
 
-You're tired of boilerplate and integration hell. Shep gives you:
+### Tertiary: Non-Technical Users
 
-- 6-12x speed multiplier
-- Focus on product logic, not wiring
-- Real code you can modify
-
-### ✅ Small Teams (2-5 people)
-
-You need to ship fast without breaking things. Shep provides:
-
-- Rapid iteration
-- Zero integration bugs
-- Type safety across the stack
+With AI assistance:
+- Describe what you want in natural language
+- AI generates ShepLang
+- You review and approve
 
 ---
 
-## Future Vision
+## The Vision
 
-In the long term, Shep aims to:
+**ShepLang becomes the intermediate representation for AI-generated software.**
 
-- Support additional targets (Go, Rust, mobile)
-- Provide a marketplace of templates and integrations
-- Enable teams to collaborate on specs
-- Build a community of founders using Shep
-- **Become the standard for AI-native application specs**
-
-### The Vision: Founder ↔ AI ↔ Spec ↔ Code
-
-```text
-Founder describes product in plain English
+```
+Human intent (natural language)
     ↓
-AI generates first-draft .shep spec
+AI generates ShepLang program
     ↓
-Founder edits human-readable spec
+Human reviews/edits ShepLang
     ↓
-Shep verifies and generates code
+Compiler generates Python + JS + SQL
     ↓
 Deploy to production
 ```
 
-**The founder never writes Python, TypeScript, or SQL. The founder never integrates APIs. The founder describes, and Shep builds.**
+ShepLang is:
+- **High-level enough** for AI to reason about
+- **Precise enough** for compilation
+- **Readable enough** for human review
+
+---
+
+## Golden Sheep AI Methodology
+
+ShepLang embodies these principles:
+
+1. **Vertical Slice Delivery** — Complete features, not layers
+2. **Verification-First** — Catch errors at compile time
+3. **AI-Native** — AI is a language primitive
+4. **Human-Reviewable** — Code you can read and trust
+
+---
+
+*ShepLang: A programming language for the AI era.*

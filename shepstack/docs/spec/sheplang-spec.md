@@ -1,41 +1,48 @@
-# Shep Spec Language Specification
+# ShepLang Language Specification
 
 ## Overview
 
-Shep uses a **structured specification format** (`.shep` files) that founders write to describe their product. The spec is human-readable, plain English-like syntax that Shep compiles to production-ready Python (FastAPI) + TypeScript (React) + database schemas.
+**ShepLang is an AI-native programming language for describing software products.**
 
-**Key Innovation**: AI is a first-class primitive in the language — not an integration, but a verb.
+A `.shep` program defines data models, views, actions, and tasks using a clean, indentation-based syntax. The ShepLang compiler transforms programs into Python (FastAPI) + TypeScript (React) + SQL (PostgreSQL).
 
-## Status
+**Key Innovation**: `ai` is a first-class language primitive — not an API, but a verb.
 
-**Phase 1**: Spec parser + basic codegen + `ai()` syntax
-**Phase 2**: Verification engine + AI primitives
-**Phase 3**: DX + AI-assisted spec writing
-**Phase 4**: Production hardening
+## Language Status
+
+| Component | Status |
+|-----------|--------|
+| Lexer | ✅ Complete |
+| Parser | ✅ Complete |
+| Type System | ✅ Complete |
+| Verification | ✅ Complete |
+| Code Generation | ✅ Complete |
+| `ai` Primitive | 🚧 Partial |
 
 ---
 
-## Spec Structure
+## Program Structure
 
-A `.shep` file contains five top-level blocks:
+A ShepLang program consists of these top-level constructs:
 
 ```shep
-app AppName
+app "ProgramName"
 
-entity EntityName:
-  # Data definitions
+data TypeName {
+  # Data model definition
+}
 
-screen ScreenName:
-  # UI definitions
+view ViewName {
+  # UI component definition
+}
 
-flow "Flow description":
-  # User journey steps
+action ActionName {
+  # Business logic
+}
 
-rule "Rule description":
-  # Business logic constraints
-
-integration ServiceName:
-  # External service declarations
+task TaskName {
+  # Background process
+}
 ```
 
 ---

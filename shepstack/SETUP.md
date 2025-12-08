@@ -1,8 +1,8 @@
-# Shepstack Setup Guide
+# ShepLang Development Setup
 
-## What Was Created
+## Repository Structure
 
-A brand new, clean mono-repo for the Shep language stack with the following structure:
+This is the ShepLang compiler and toolchain mono-repo:
 
 ```
 shepstack/

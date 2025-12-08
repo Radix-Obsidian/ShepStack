@@ -1,214 +1,281 @@
-# 🐑 Shep
+# 🐑 ShepLang
 
-**Write a spec. Get a full-stack app.**
+**An AI-native programming language for describing software products.**
 
-The fastest way for non-technical founders to build production applications. Shep generates Python (FastAPI) + TypeScript (React) + SQL from a simple specification language.
+ShepLang has first-class concepts like `app`, `data`, `view`, `action`, and `task`, plus `ai` as a built-in verb. A ShepLang program compiles to Python + JavaScript services (via ShepThon) with auth, admin, and APIs generated automatically. Both humans and LLMs can read and write ShepLang.
 
-[![npm version](https://img.shields.io/npm/v/@shep/cli?style=flat-square)](https://www.npmjs.com/package/@shep/cli)
-[![npm downloads](https://img.shields.io/npm/dm/@shep/cli?style=flat-square)](https://www.npmjs.com/package/@shep/cli)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=flat-square)](https://opensource.org/licenses/MIT)
 [![GitHub Stars](https://img.shields.io/github/stars/Radix-Obsidian/ShepStack?style=flat-square)](https://github.com/Radix-Obsidian/ShepStack)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.3-blue?style=flat-square)](https://www.typescriptlang.org/)
-[![Node.js](https://img.shields.io/badge/Node.js-20+-green?style=flat-square)](https://nodejs.org/)
 
-## ✨ What You Get
+## What is ShepLang?
 
-✅ **Full-Stack Code Generation** - Python (FastAPI) + TypeScript (React) + PostgreSQL  
-✅ **Auto-Generated Authentication** - JWT-based login/signup/logout  
-✅ **Admin Dashboard** - Beautiful CRUD UI for all entities  
-✅ **One-Command Deployment** - Deploy to Railway, Render, or Fly.io  
-✅ **Beautiful Styling** - Tailwind CSS + shadcn components  
-✅ **Type Safety** - End-to-end TypeScript + Pydantic validation  
-✅ **AI-Ready** - Built-in support for AI fields and rules  
-✅ **Production Ready** - Spec validation, linting, error suggestions  
+ShepLang is a **programming language**, not an app builder. It has:
 
-## 🚀 Quick Start
+- **Syntax** — A clean, indentation-based grammar
+- **AST** — A well-defined abstract syntax tree
+- **Type System** — Static types with verification
+- **Compiler** — Transforms ShepLang → Python + JS + SQL
+- **Semantics** — Clear rules for what programs mean
 
-```bash
-# Install globally
-npm install -g @shep/cli
+### Language Concepts
 
-# Create a new app
-shep new myapp
+| Concept | Purpose | Example |
+|---------|---------|---------|
+| `app` | Program declaration | `app "MyProduct"` |
+| `data` | Data model definitions | `data User { email: text }` |
+| `view` | UI component definitions | `view UserList { show: [email, name] }` |
+| `action` | Business logic | `action CreateUser { validate email }` |
+| `task` | Background processes | `task SendWelcomeEmail { on: user.created }` |
+| `ai` | AI as a verb | `ai: classify sentiment` |
 
-# Compile the spec
-shep compile --input myapp.shep
-
-# Deploy to the cloud
-shep deploy --provider railway
-```
-
-## 📝 Example Spec
+## Quick Example
 
 ```shep
-app "TaskManager"
-  description: "Simple task management app"
-  version: "1.0"
+app "SupportTickets"
 
-entity Task:
-  fields:
-    - title: text (required)
-    - description: text
-    - completed: boolean
-    - dueDate: date
-    - priority: enum(low, medium, high)
+data Ticket {
+  title: text (required)
+  message: text (required)
+  status: enum(open, resolved, escalated)
+  sentiment: ai("classify as positive, neutral, negative")
+}
 
-screen TaskList (list):
-  entity: Task
-  fields: [title, dueDate, priority, completed]
+data User {
+  email: email (required, unique)
+  role: enum(customer, agent, admin)
+}
 
-screen TaskForm (form):
-  entity: Task
-  fields: [title, description, dueDate, priority]
+view TicketList {
+  show: [title, status, sentiment]
+  filter: status
+  sort: createdAt desc
+}
 
-flow "Create Task":
-  1. User opens TaskForm
-  2. User fills in fields
-  3. User clicks Save
-  4. Task is created
+view TicketDetail {
+  show: [title, message, status]
+  actions: [resolve, escalate]
+}
+
+action ResolveTicket {
+  set status = resolved
+  notify user
+}
+
+action EscalateTicket {
+  if ai(message, "sounds frustrated") {
+    set status = escalated
+    alert on-call agent
+  }
+}
+
+task AutoCategorize {
+  on: ticket.created
+  ai: categorize and route to correct team
+}
 ```
 
-**Generated automatically:**
+## The AI Primitive
 
-- ✅ FastAPI backend with CRUD routes
-- ✅ React components with forms and lists
-- ✅ PostgreSQL schema with migrations
-- ✅ JWT authentication system
-- ✅ Admin dashboard
-- ✅ Tailwind-styled components
-- ✅ TypeScript types for frontend
-- ✅ Pydantic models for backend
+**ShepLang is the first programming language with AI as a built-in verb.**
 
-## 📚 Documentation
+```shep
+# AI in data fields (derived values)
+data Article {
+  content: text
+  summary: ai("summarize in 2 sentences")
+  category: ai("classify: tech, business, lifestyle")
+}
 
-- **[Getting Started](./docs/guides/getting-started.md)** - Installation and first app
-- **[Syntax Reference](./docs/guides/syntax-reference.md)** - Complete language reference
-- **[Deployment Guide](./docs/guides/deployment.md)** - Deploy to production
-- **[Roadmap](./docs/roadmap/00-high-level.md)** - What's coming next
-- **[Philosophy](./docs/spec/shep-philosophy.md)** - Design principles
+# AI in actions (conditional logic)
+action ModerateComment {
+  if ai(comment.text, "is offensive or spam") {
+    reject with "Content policy violation"
+  }
+}
 
-## 🏗️ Architecture
+# AI in tasks (automated processing)
+task ProcessSupport {
+  ai: draft initial response
+  ai: suggest relevant docs
+  assign to agent
+}
+```
 
-Shep is a vertical-slice, spec-first language stack for building modern applications. Rather than building monolithic applications, Shep enables you to define self-contained, end-to-end features that span from data models through API endpoints to UI components.
+When you use `ai`, the compiler generates:
+- LLM API calls (Claude/OpenAI)
+- Prompt construction with context
+- Response parsing and validation
+- Caching, retry logic, error handling
+- Cost tracking and rate limiting
 
-The stack provides multiple language targets:
+**You write intent. The compiler handles complexity.**
 
-- **@shep/core**: Shared language core (parser, verifier, type system)
-- **@shep/cli**: Developer CLI (compile, verify, deploy)
-- **@shep/lsp**: Language Server Protocol for editor integration
-- **shepthon**: Python code generation (FastAPI, Pydantic)
+## Compilation
 
-## 📦 Packages
+ShepLang compiles to production services:
 
-| Package | Version | Description |
-|---------|---------|-------------|
-| `@shep/cli` | [![npm](https://img.shields.io/npm/v/@shep/cli?style=flat-square)](https://www.npmjs.com/package/@shep/cli) | Command-line tool for compiling, verifying, and deploying |
-| `@shep/core` | [![npm](https://img.shields.io/npm/v/@shep/core?style=flat-square)](https://www.npmjs.com/package/@shep/core) | Language core (parser, verifier, type system) |
-| `@shep/lsp` | [![npm](https://img.shields.io/npm/v/@shep/lsp?style=flat-square)](https://www.npmjs.com/package/@shep/lsp) | Language Server Protocol for editor integration |
-| `shepthon` | [![npm](https://img.shields.io/npm/v/shepthon?style=flat-square)](https://www.npmjs.com/package/shepthon) | Python code generation (FastAPI, Pydantic) |
+```
+┌─────────────────┐
+│   ShepLang      │ ← You write this
+│   (.shep file)  │
+└────────┬────────┘
+         │ compile
+         ▼
+┌─────────────────┐     ┌─────────────────┐     ┌─────────────────┐
+│   ShepThon      │     │   ShepLang-JS   │     │   ShepSQL       │
+│   (Python)      │     │   (TypeScript)  │     │   (PostgreSQL)  │
+│   FastAPI +     │     │   React +       │     │   Schema +      │
+│   Pydantic      │     │   Types         │     │   Migrations    │
+└─────────────────┘     └─────────────────┘     └─────────────────┘
+```
 
-## 🏗️ Project Structure
+## Language Architecture
 
-```bash
+```
 shepstack/
 ├── packages/
-│   ├── shep-core/        # Parser, verifier, type system
-│   ├── shep-cli/         # CLI tool (compile, verify, deploy)
-│   ├── shep-lsp/         # Language Server Protocol
-│   └── shepthon/         # Python code generation
+│   ├── shep-core/        # Language core: lexer, parser, AST, type system
+│   ├── shep-cli/         # Compiler CLI: shep compile, shep check
+│   ├── shep-lsp/         # Language Server Protocol for IDEs
+│   ├── shepthon/         # Python backend compiler target
+│   └── sheplang/         # TypeScript frontend compiler target
 ├── editors/
-│   └── vscode-extension/ # VS Code extension
+│   └── vscode-extension/ # VS Code language support
 ├── examples/
-│   └── support-ai/       # Example with AI features
-├── docs/
-│   ├── guides/           # User guides
-│   └── roadmap/          # Development roadmap
-└── README.md
+│   └── support-ai/       # Example ShepLang program
+└── docs/
+    ├── spec/             # Language specification
+    ├── guides/           # Language tutorials
+    └── roadmap/          # Development roadmap
 ```
 
-## 🔧 Development
+## Getting Started
 
-This is a pnpm workspace monorepo. Each package is independently versioned and published.
-
-### Setup
+### Install
 
 ```bash
-# Clone the repository
+# Clone the repo
 git clone https://github.com/Radix-Obsidian/ShepStack.git
-cd shepstack
+cd ShepStack/shepstack
 
 # Install dependencies
 pnpm install
 
-# Build all packages
+# Build the compiler
 pnpm build
+
+# Link CLI
+cd packages/shep-cli && pnpm link --global
 ```
 
-### Scripts
+### Write Your First Program
+
+Create `hello.shep`:
+
+```shep
+app "Hello"
+
+data Greeting {
+  message: text (required)
+  mood: ai("classify as happy, neutral, sad")
+}
+
+view GreetingForm {
+  input: [message]
+  submit: CreateGreeting
+}
+
+action CreateGreeting {
+  save Greeting
+  show "Created!"
+}
+```
+
+### Compile
 
 ```bash
-pnpm build       # Build all packages
-pnpm lint        # Lint all packages
-pnpm test        # Run tests
-pnpm dev         # Start development server
+# Check syntax and types
+shep check hello.shep
+
+# Compile to Python + TypeScript + SQL
+shep compile --input hello.shep --output ./dist
 ```
 
-### Making Changes
+### Run
 
-1. Create a feature branch: `git checkout -b feat/my-feature`
-2. Make your changes
-3. Run tests: `pnpm test`
-4. Commit: `git commit -am 'feat: add my feature'`
-5. Push: `git push origin feat/my-feature`
-6. Open a PR
+```bash
+cd dist
+pip install -r requirements.txt
+uvicorn main:app --reload
+```
 
-## 🎯 Features
+## Documentation
 
-### Phase 4: Production Ready ✅
+- **[Language Specification](./docs/spec/sheplang-spec.md)** — Formal syntax and semantics
+- **[ShepThon Spec](./docs/spec/shepthon-spec.md)** — Python backend profile
+- **[Philosophy](./docs/spec/shep-philosophy.md)** — Design principles
+- **[Syntax Reference](./docs/guides/syntax-reference.md)** — Complete grammar reference
+- **[Quick Start](./docs/guides/quickstart.md)** — Tutorial
+- **[Roadmap](./docs/roadmap/00-high-level.md)** — Development status
 
-- [x] Auto-generated authentication (JWT-based)
-- [x] Auto-generated admin dashboard
-- [x] One-command deployment (Railway, Render, Fly.io)
-- [x] Better error messages with suggestions
-- [x] Spec validation & linting (L001-L011)
-- [x] Tailwind CSS + shadcn styling
-- [x] Advanced field types (UUID, JSON, arrays)
-- [x] Field constraints (min/max, regex, unique, default)
-- [x] Computed fields
+## Development Status
 
-### Phase 5: Coming Soon 🚀
+### Implemented ✅
 
-- [ ] AI-assisted spec writing (`shep draft`)
+- [x] Lexer and parser
+- [x] AST and type system
+- [x] Type verification engine
+- [x] Python code generation (ShepThon)
+- [x] TypeScript code generation
+- [x] SQL schema generation
+- [x] CLI compiler (`shep compile`, `shep check`)
+- [x] Auth generation (JWT)
+- [x] Admin dashboard generation
+- [x] Error messages with suggestions
+
+### In Progress 🚧
+
+- [ ] `ai` primitive full implementation
+- [ ] `task` background jobs
+- [ ] VS Code extension polish
+- [ ] Language server diagnostics
+
+### Planned 📋
+
+- [ ] AI-assisted program generation (`shep draft`)
 - [ ] Database migrations
-- [ ] Custom hooks & middleware
-- [ ] Multi-tenancy support
-- [ ] GraphQL support
-- [ ] Real-time subscriptions
+- [ ] Plugin system
+- [ ] Additional compiler targets (Go, Rust)
 
-## 🤝 Contributing
+## Who Is This For?
 
-Contributions are welcome! Please see [CONTRIBUTING.md](./CONTRIBUTING.md) for guidelines.
+### Primary: AI Agents + LLMs
 
-## 📄 License
+ShepLang is designed to be **written by AI**. The syntax is:
+- Unambiguous (no edge cases)
+- Structured (easy to parse)
+- Domain-specific (clear semantics)
+- Readable (humans can review)
 
-MIT - See [LICENSE](./LICENSE)
+### Secondary: Technical Founders + Developers
 
-## 🙋 Support
+If you understand programming concepts, you can write ShepLang directly. It's faster than writing Python + React + SQL separately.
 
-- 💬 [GitHub Discussions](https://github.com/Radix-Obsidian/ShepStack/discussions)
-- 🐛 [Report Issues](https://github.com/Radix-Obsidian/ShepStack/issues)
-- 📧 [Email](mailto:hello@shep.dev)
+### Tertiary: Non-Technical Founders
 
-## 🌟 Built With
+With AI assistance, non-technical users can describe what they want in natural language, and AI generates the ShepLang program for them to review.
 
-- **TypeScript** - Type-safe language
-- **FastAPI** - Python web framework
-- **React** - UI library
-- **Tailwind CSS** - Styling
-- **Pydantic** - Data validation
-- **PostgreSQL** - Database
-- **JWT** - Authentication
+## Contributing
+
+See [CONTRIBUTING.md](./CONTRIBUTING.md) for development setup and guidelines.
+
+## License
+
+MIT — See [LICENSE](./LICENSE)
 
 ---
 
-**Made with ❤️ for non-technical founders who want to build fast.**
+**ShepLang: A programming language for the AI era.**
+
+*Built by [Golden Sheep AI](https://goldensheepai.com)*

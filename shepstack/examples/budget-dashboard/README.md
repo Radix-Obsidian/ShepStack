@@ -1,48 +1,40 @@
-# Budget Dashboard Example
+# Budget Dashboard — Example ShepLang Program
 
-A reference implementation of a full-stack application using the Shep language stack.
+A reference ShepLang program for a budget tracking application.
 
-## Overview
+## What This Demonstrates
 
-This example demonstrates:
+- **`data`** — Budget and BudgetItem data models
+- **`view`** — Dashboard and list views
+- **`action`** — CRUD operations
 
-- **Frontend (Sheplang)**: A React-like component-based UI for managing budgets
-- **Backend (Shepthon)**: Python-based REST API endpoints for budget operations
-- **Data Models**: Shared type definitions for budgets and budget items
+## Program Structure
 
-## Structure
-
-```text
+```
 src/
-├── app.sheplang.shep      # Frontend components and UI logic
-└── api.shepthon.shep      # Backend API endpoints and entities
+├── app.shep      # Complete ShepLang program
 ```
 
-## Features
-
-- View budgets by month
-- Create, update, and delete budgets
-- Track budget items and spending
-- Real-time budget status
-
-## Building
+## Compiling
 
 ```bash
-# Compile Sheplang to TypeScript
-pnpm -C packages/shep-cli exec shep compile --lang sheplang --input examples/budget-dashboard/src/app.sheplang.shep --output examples/budget-dashboard/dist/app.ts
-
-# Compile Shepthon to Python
-pnpm -C packages/shep-cli exec shep compile --lang shepthon --input examples/budget-dashboard/src/api.shepthon.shep --output examples/budget-dashboard/dist/api.py
+shep compile --input examples/budget-dashboard/src/app.shep --output examples/budget-dashboard/dist
 ```
+
+## Generated Output
+
+- Python backend (FastAPI + Pydantic)
+- TypeScript frontend (React + types)
+- PostgreSQL schema
 
 ## Running
 
-Development server coming in Phase 3.
+```bash
+cd dist
+pip install -r requirements.txt
+uvicorn main:app --reload
+```
 
-## Future Enhancements
+---
 
-- [ ] Database integration
-- [ ] Authentication
-- [ ] Real-time updates
-- [ ] Advanced analytics
-- [ ] Mobile support
+*ShepLang: A programming language for the AI era.*

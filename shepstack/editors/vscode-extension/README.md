@@ -1,18 +1,22 @@
-# Shep Language Support for VS Code
+# ShepLang for VS Code
 
-Provides language support for Shep in Visual Studio Code.
+Language support for ShepLang in Visual Studio Code.
 
 ## Features
 
-- Syntax highlighting for `.sheplang` and `.shepthon` files
-- Language Server Protocol integration (coming in Phase 3)
-- Diagnostics and error reporting (coming in Phase 3)
-- Code completion (coming in Phase 3)
-- Go to definition (coming in Phase 3)
+| Feature | Status |
+|---------|--------|
+| Syntax highlighting | 🚧 In progress |
+| Diagnostics | 📋 Planned |
+| Code completion | 📋 Planned |
+| Hover information | 📋 Planned |
+| Go to definition | 📋 Planned |
 
 ## Installation
 
-This extension is part of the Shepstack mono-repo and is not yet published to the VS Code marketplace.
+This extension is part of the ShepLang mono-repo and is not yet published to the VS Code marketplace.
+
+For development, open the `editors/vscode-extension` folder in VS Code and press F5 to launch a test instance.
 
 ## Development
 
@@ -24,12 +28,10 @@ pnpm -C editors/vscode-extension build
 pnpm -C editors/vscode-extension test
 ```
 
-## Roadmap
+## File Associations
 
-- [ ] Full LSP integration
-- [ ] Syntax highlighting
-- [ ] Code completion
-- [ ] Diagnostics
-- [ ] Go to definition
-- [ ] Hover information
-- [ ] Refactoring support
+The extension registers `.shep` files as ShepLang programs.
+
+---
+
+*ShepLang: A programming language for the AI era.*

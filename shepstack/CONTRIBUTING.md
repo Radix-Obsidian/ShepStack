@@ -1,6 +1,6 @@
-# Contributing to Shep
+# Contributing to ShepLang
 
-We love contributions! Whether it's bug reports, feature requests, or code contributions, we appreciate your help in making Shep better.
+We welcome contributions to the ShepLang compiler and toolchain! Whether it's bug fixes, new features, or documentation improvements.
 
 ## Getting Started
 

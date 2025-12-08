@@ -1,6 +1,6 @@
-# Quick Start Guide
+# ShepLang Quick Start
 
-Build your first Shep app in 5 minutes.
+Learn ShepLang in 10 minutes.
 
 ## Prerequisites
 
@@ -8,7 +8,7 @@ Build your first Shep app in 5 minutes.
 - Python 3.10+
 - pnpm (recommended) or npm
 
-## Installation
+## Install the Compiler
 
 ```bash
 # Clone the repo
@@ -18,7 +18,7 @@ cd ShepStack/shepstack
 # Install dependencies
 pnpm install
 
-# Build
+# Build the compiler
 pnpm build
 
 # Link CLI globally
@@ -26,179 +26,160 @@ cd packages/shep-cli
 pnpm link --global
 ```
 
-## Create Your First App
+## Your First Program
 
-### Option 1: Use a Template
-
-```bash
-# Create a new SaaS project
-shep new my-saas --template saas
-cd my-saas
-```
-
-### Option 2: Let AI Write It
-
-```bash
-# Set your API key
-export ANTHROPIC_API_KEY=your-key-here
-
-# Generate spec from description
-shep draft "I want a task management app with projects, tasks, and team members"
-```
-
-### Option 3: Write From Scratch
-
-Create `app.shep`:
+Create a file called `hello.shep`:
 
 ```shep
-app "TaskManager"
-  description: "A simple task management app"
-  version: "1.0"
+app "HelloWorld"
 
-entity User:
-  fields:
-    - email: email (required)
-    - name: text (required)
-    - createdAt: datetime (required)
+data Greeting {
+  message: text (required)
+  mood: enum(happy, neutral, sad)
+}
 
-entity Task:
-  fields:
-    - title: text (required)
-    - description: text
-    - status: enum(todo, in_progress, done) (required)
-    - assignee: relationship(User)
-    - createdAt: datetime (required)
+view GreetingList {
+  show: [message, mood]
+}
 
-screen TaskList (list):
-  entity: Task
-  fields: [title, status, assignee]
-
-screen TaskForm (form):
-  entity: Task
-  fields: [title, description, status, assignee]
-
-flow "Create task":
-  1. User clicks "New Task"
-  2. User fills out task form
-  3. System creates task
-  4. Task appears in list
-
-rule "Only assignee can complete":
-  if user != task.assignee → disable complete button
+action CreateGreeting {
+  validate message is not empty
+  save Greeting
+}
 ```
 
-## Generate Code
+## Compile It
 
 ```bash
-# Verify the spec first
-shep verify app.shep
+# Check for errors
+shep check hello.shep
 
-# Generate Python + TypeScript + SQL
-shep compile --input app.shep --output generated
+# Compile to Python + TypeScript + SQL
+shep compile --input hello.shep --output ./dist
 ```
 
-This creates:
+This generates:
 
 ```
-generated/
-├── models.py       # Pydantic models
-├── routes.py       # FastAPI endpoints
-├── ai_client.py    # AI functions (if using ai())
-├── main.py         # FastAPI entry point
-├── schema.sql      # PostgreSQL schema
-├── types.ts        # TypeScript interfaces
-├── api.ts          # API client
-├── hooks.ts        # React hooks
-└── ai.ts           # Frontend AI client
+dist/
+├── main.py           # FastAPI entry point
+├── models.py         # Pydantic models
+├── routes.py         # API endpoints
+├── auth.py           # JWT authentication
+├── admin.html        # Admin dashboard
+├── schema.sql        # PostgreSQL schema
+├── types.ts          # TypeScript interfaces
+├── api.ts            # API client
+└── requirements.txt  # Python dependencies
 ```
 
-## Run the Backend
+## Run It
 
 ```bash
-cd generated
-
-# Create virtual environment
-python -m venv .venv
-source .venv/bin/activate  # or .venv\Scripts\activate on Windows
-
-# Install dependencies
+cd dist
 pip install -r requirements.txt
-
-# Run server
 uvicorn main:app --reload --port 3001
 ```
 
-Open http://localhost:3001/docs to see the API documentation.
+Open:
+- API docs: <http://localhost:3001/docs>
+- Admin panel: <http://localhost:3001/admin>
 
-## Development Mode
+---
 
-Use `shep dev` for hot reload:
+## Language Concepts
 
-```bash
-shep dev --input app.shep --output generated
-```
-
-This:
-1. Compiles your spec
-2. Starts the backend server
-3. Watches for changes
-4. Recompiles and restarts on save
-
-## Add AI Features
-
-Add AI to your spec:
+### `data` — Define Data Models
 
 ```shep
-entity Task:
-  fields:
-    - title: text (required)
-    - description: text
-    - priority: ai("classify as low, medium, or high based on description")
-    - suggestedAssignee: ai("suggest best team member based on task type")
+data User {
+  email: email (required, unique)
+  name: text (required)
+  role: enum(admin, user)
+  createdAt: datetime
+}
 
-rule "Auto-prioritize urgent tasks":
-  if ai(task.description, "sounds urgent or time-sensitive") → set priority = high
+data Task {
+  title: text (required)
+  status: enum(todo, done)
+  assignee: User  # Relationship
+}
 ```
 
-Set your API key:
+### `view` — Define UI Components
 
-```bash
-export ANTHROPIC_API_KEY=your-key-here
-# or
-export OPENAI_API_KEY=your-key-here
+```shep
+view TaskList {
+  show: [title, status, assignee]
+  filter: status
+  sort: createdAt desc
+}
+
+view TaskForm {
+  input: [title, status, assignee]
+  submit: CreateTask
+}
 ```
+
+### `action` — Define Business Logic
+
+```shep
+action CreateTask {
+  validate title is not empty
+  save Task
+  notify assignee
+}
+
+action CompleteTask {
+  set status = done
+  log "Task completed"
+}
+```
+
+### `ai` — AI as a Language Primitive
+
+```shep
+data Ticket {
+  message: text (required)
+  sentiment: ai("classify as positive, neutral, negative")
+  summary: ai("summarize in one sentence")
+}
+
+action EscalateTicket {
+  if ai(message, "sounds frustrated") {
+    set priority = high
+    alert on-call
+  }
+}
+```
+
+---
 
 ## CLI Commands
 
 | Command | Description |
 |---------|-------------|
+| `shep check <file>` | Verify syntax and types |
+| `shep compile --input <file>` | Compile to Python/TS/SQL |
 | `shep new <name>` | Create new project |
-| `shep draft "..."` | AI generates spec |
-| `shep verify <file>` | Validate spec |
-| `shep compile --input <file>` | Generate code |
 | `shep dev` | Watch mode + hot reload |
-| `shep style --analyze <dir>` | Generate AGENTS.md |
-
-## Templates
-
-```bash
-shep new my-app                      # Blank starter
-shep new my-app --template saas      # Multi-tenant SaaS
-shep new my-app --template marketplace  # Two-sided marketplace
-shep new my-app --template ai-chat   # AI chat application
-```
-
-## Next Steps
-
-1. **Read the [Syntax Reference](./syntax-reference.md)** - Complete language guide
-2. **Explore [SupportAI Example](../../examples/support-ai/)** - Full AI chat app
-3. **Install VS Code Extension** - Syntax highlighting for `.shep` files
-
-## Getting Help
-
-- **Issues:** https://github.com/Radix-Obsidian/ShepStack/issues
-- **Discussions:** https://github.com/Radix-Obsidian/ShepStack/discussions
+| `shep deploy` | Deployment helpers |
 
 ---
 
-*"Build narrow. Test deep. Ship confidently."*
+## What's Next
+
+1. **[Syntax Reference](./syntax-reference.md)** — Complete language grammar
+2. **[Language Spec](../spec/sheplang-spec.md)** — Formal specification
+3. **[Example: SupportAI](../../examples/support-ai/)** — Full program with AI
+
+---
+
+## Getting Help
+
+- **Issues:** <https://github.com/Radix-Obsidian/ShepStack/issues>
+- **Discussions:** <https://github.com/Radix-Obsidian/ShepStack/discussions>
+
+---
+
+*ShepLang: A programming language for the AI era.*
