@@ -116,14 +116,18 @@ action EscalateTicket {
   - [x] Suggestions in parser errors
   - [x] Common mistake detection
 
-### Partial 🚧
+### Completed ✅
 
-- [ ] **AI primitive full implementation**
+- [x] **AI primitive full implementation**
   - [x] `ai()` syntax parsing
-  - [x] Basic AI field code generation
-  - [ ] Full LLM API integration
-  - [ ] Caching and retry logic
-  - [ ] Cost tracking
+  - [x] Full LLM API integration (Claude + OpenAI)
+  - [x] Caching with TTL (in-memory, Redis-ready)
+  - [x] Retry logic with exponential backoff
+  - [x] Cost tracking (token counting)
+  - [x] Rate limiting
+  - [x] Structured output validation
+  - [x] AI routes generation
+  - [x] TypeScript client with React hooks
 
 ---
 
@@ -198,7 +202,7 @@ action EscalateTicket {
 | `view` | ✅ | ✅ | ✅ |
 | `action` | ✅ | ✅ | ✅ |
 | `task` | 🚧 | 🚧 | 📋 |
-| `ai` | ✅ | 🚧 | 🚧 |
+| `ai` | ✅ | ✅ | ✅ |
 
 ---
 
