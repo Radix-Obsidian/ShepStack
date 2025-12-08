@@ -1,7 +1,11 @@
 {
-  "name": "@shep/lsp",
-  "version": "0.0.1",
+  "name": "@goldensheepai/shep-lsp",
+  "version": "0.1.0",
   "description": "Shep Language Server Protocol implementation",
+  "repository": "https://github.com/Radix-Obsidian/ShepStack/tree/main/packages/shep-lsp",
+  "homepage": "https://github.com/Radix-Obsidian/ShepStack",
+  "bugs": "https://github.com/Radix-Obsidian/ShepStack/issues",
+  "license": "MIT",
   "type": "module",
   "main": "dist/index.js",
   "scripts": {
@@ -10,11 +14,16 @@
     "test": "echo 'Tests not yet configured'"
   },
   "dependencies": {
-    "@shep/core": "workspace:*",
+    "@goldensheepai/shep-core": "workspace:*",
     "vscode-languageserver": "^8.1.0"
   },
   "devDependencies": {
     "@types/node": "^20.10.0",
     "typescript": "^5.3.3"
+  },
+  "files": ["dist", "package.json"],
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
   }
 }
