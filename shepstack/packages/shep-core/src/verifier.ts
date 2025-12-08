@@ -378,6 +378,11 @@ class SpecVerifier {
     // Phase 6: Integration type matching (frontend ↔ backend)
     this.verifyIntegrationTypes();
 
+    // Phase 7: Linting - best practices and style
+    this.lintNamingConventions();
+    this.lintUnusedEntities();
+    this.lintBestPractices();
+
     // Build result
     const errorCount = this.issues.filter((i) => i.severity === "error").length;
     const warningCount = this.issues.filter((i) => i.severity === "warning").length;
@@ -1435,6 +1440,248 @@ class SpecVerifier {
       location,
       suggestion,
     });
+  }
+
+  // --------------------------------------------------------------------------
+  // Linting - Best Practices and Style
+  // --------------------------------------------------------------------------
+
+  /**
+   * Check naming conventions across the spec.
+   */
+  private lintNamingConventions(): void {
+    // Entity names should be PascalCase
+    for (const entity of this.spec.entities) {
+      if (!this.isPascalCase(entity.name)) {
+        this.addWarning(
+          "L001",
+          `Entity "${entity.name}" should use PascalCase (e.g., "${this.toPascalCase(entity.name)}").`,
+          entity.location,
+          `Rename to "${this.toPascalCase(entity.name)}".`
+        );
+      }
+
+      // Field names should be camelCase or snake_case
+      for (const field of entity.fields) {
+        if (!this.isCamelCase(field.name) && !this.isSnakeCase(field.name)) {
+          this.addWarning(
+            "L002",
+            `Field "${entity.name}.${field.name}" should use camelCase or snake_case.`,
+            field.location,
+            `Rename to "${this.toCamelCase(field.name)}".`
+          );
+        }
+      }
+    }
+
+    // Screen names should be PascalCase
+    for (const screen of this.spec.screens) {
+      if (!this.isPascalCase(screen.name)) {
+        this.addWarning(
+          "L003",
+          `Screen "${screen.name}" should use PascalCase (e.g., "${this.toPascalCase(screen.name)}").`,
+          screen.location,
+          `Rename to "${this.toPascalCase(screen.name)}".`
+        );
+      }
+    }
+
+    // Flow names should be descriptive (at least 2 words)
+    for (const flow of this.spec.flows) {
+      const words = flow.name.split(/\s+/).filter((w: string) => w.length > 0);
+      if (words.length < 2) {
+        this.addInfo(
+          "L004",
+          `Flow "${flow.name}" could be more descriptive.`,
+          flow.location,
+          `Use a descriptive name like "User creates account" or "Admin reviews order".`
+        );
+      }
+    }
+  }
+
+  /**
+   * Check for unused entities.
+   */
+  private lintUnusedEntities(): void {
+    // Find entities that aren't referenced by any screen or flow
+    const usedEntities = new Set<string>();
+
+    // Collect entities used in screens
+    for (const screen of this.spec.screens) {
+      if (screen.entity) {
+        usedEntities.add(screen.entity);
+      }
+    }
+
+    // Collect entities used in flows via step descriptions mentioning screens
+    for (const flow of this.spec.flows) {
+      for (const step of flow.steps) {
+        // Parse screen references from step descriptions
+        for (const screen of this.spec.screens) {
+          if (step.description.includes(screen.name) && screen.entity) {
+            usedEntities.add(screen.entity);
+          }
+        }
+      }
+    }
+
+    // Collect entities used in rules
+    for (const rule of this.spec.rules) {
+      // Parse entity references from rule conditions
+      if (rule.condition) {
+        const match = rule.condition.match(/(\w+)\./);
+        if (match) {
+          usedEntities.add(match[1]);
+        }
+      }
+    }
+
+    // Collect entities used in relationships
+    for (const entity of this.spec.entities) {
+      for (const field of entity.fields) {
+        if (field.relatedEntity) {
+          usedEntities.add(field.relatedEntity);
+        }
+      }
+      // The entity itself is used if it's referenced
+      usedEntities.add(entity.name);
+    }
+
+    // Report unused entities (only if there are screens to use them)
+    if (this.spec.screens.length > 0) {
+      for (const entity of this.spec.entities) {
+        // Check if any screen references this entity
+        const isReferenced = this.spec.screens.some(s => s.entity === entity.name);
+        if (!isReferenced) {
+          this.addInfo(
+            "L005",
+            `Entity "${entity.name}" is not used by any screen.`,
+            entity.location,
+            `Create a screen that uses this entity, or remove it if not needed.`
+          );
+        }
+      }
+    }
+  }
+
+  /**
+   * Check best practices and common mistakes.
+   */
+  private lintBestPractices(): void {
+    // Check for entities without any required fields
+    for (const entity of this.spec.entities) {
+      const hasRequiredField = entity.fields.some(f => f.required);
+      if (!hasRequiredField && entity.fields.length > 0) {
+        this.addInfo(
+          "L006",
+          `Entity "${entity.name}" has no required fields. Consider making key fields required.`,
+          entity.location,
+          `Add (required) to important fields like name or email.`
+        );
+      }
+    }
+
+    // Check for screens without entity reference
+    for (const screen of this.spec.screens) {
+      if (screen.kind !== "dashboard" && !screen.entity) {
+        this.addWarning(
+          "L007",
+          `Screen "${screen.name}" is not linked to an entity.`,
+          screen.location,
+          `Add "entity: EntityName" to link this screen to data.`
+        );
+      }
+    }
+
+    // Check for rules without clear actions
+    for (const rule of this.spec.rules) {
+      if (!rule.action) {
+        this.addWarning(
+          "L008",
+          `Rule "${rule.description}" has no action defined.`,
+          rule.location,
+          `Add an action like "→ set status = 'approved'" or "→ notify".`
+        );
+      }
+    }
+
+    // Check for flows without steps
+    for (const flow of this.spec.flows) {
+      if (!flow.steps || flow.steps.length === 0) {
+        this.addWarning(
+          "L009",
+          `Flow "${flow.name}" has no steps defined.`,
+          flow.location,
+          `Add numbered steps like "1. User fills form" and "2. System saves data".`
+        );
+      }
+    }
+
+    // Check for potential security issues
+    for (const entity of this.spec.entities) {
+      const hasPasswordField = entity.fields.some(f => 
+        f.name.toLowerCase().includes("password") || 
+        f.name.toLowerCase().includes("secret") ||
+        f.name.toLowerCase().includes("token")
+      );
+      
+      if (hasPasswordField) {
+        const sensitiveField = entity.fields.find(f => 
+          f.name.toLowerCase().includes("password") || 
+          f.name.toLowerCase().includes("secret") ||
+          f.name.toLowerCase().includes("token")
+        );
+        if (sensitiveField?.fieldType !== "text") {
+          continue; // Already text, which is fine
+        }
+        this.addInfo(
+          "L010",
+          `Entity "${entity.name}" has a sensitive field "${sensitiveField?.name}". Ensure it's not exposed in screens.`,
+          entity.location,
+          `Shep's authentication system handles passwords securely. For custom sensitive fields, exclude them from screens.`
+        );
+      }
+    }
+
+    // Check for overly complex flows (>10 steps)
+    for (const flow of this.spec.flows) {
+      if (flow.steps && flow.steps.length > 10) {
+        this.addWarning(
+          "L011",
+          `Flow "${flow.name}" has ${flow.steps.length} steps. Consider splitting into smaller flows.`,
+          flow.location,
+          `Break complex flows into smaller, reusable sub-flows for maintainability.`
+        );
+      }
+    }
+  }
+
+  // --------------------------------------------------------------------------
+  // Linting Helper Methods
+  // --------------------------------------------------------------------------
+
+  private isPascalCase(str: string): boolean {
+    return /^[A-Z][a-zA-Z0-9]*$/.test(str);
+  }
+
+  private isCamelCase(str: string): boolean {
+    return /^[a-z][a-zA-Z0-9]*$/.test(str);
+  }
+
+  private isSnakeCase(str: string): boolean {
+    return /^[a-z][a-z0-9_]*$/.test(str);
+  }
+
+  private toPascalCase(str: string): string {
+    return str
+      .replace(/[^a-zA-Z0-9]+(.)/g, (_, c) => c.toUpperCase())
+      .replace(/^[a-z]/, c => c.toUpperCase());
+  }
+
+  private toCamelCase(str: string): string {
+    const pascal = this.toPascalCase(str);
+    return pascal.charAt(0).toLowerCase() + pascal.slice(1);
   }
 
   private buildSummary(): VerificationSummary {
