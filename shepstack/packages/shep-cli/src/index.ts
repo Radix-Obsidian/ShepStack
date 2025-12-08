@@ -9,6 +9,7 @@ import { newCommand } from "./commands/new.js";
 import { styleCommand } from "./commands/style.js";
 import { verifyCommand } from "./commands/verify.js";
 import { draftCommand } from "./commands/draft.js";
+import { deployCommand } from "./commands/deploy.js";
 
 const program = new Command();
 
@@ -24,6 +25,7 @@ program.addCommand(newCommand);
 program.addCommand(styleCommand);
 program.addCommand(verifyCommand);
 program.addCommand(draftCommand);
+program.addCommand(deployCommand);
 
 /**
  * Main entry point for the CLI.
