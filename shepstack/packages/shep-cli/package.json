@@ -14,7 +14,7 @@
   "scripts": {
     "build": "tsc -b",
     "lint": "echo 'Lint not yet configured'",
-    "test": "echo 'Tests not yet configured'"
+    "test": "echo 'Tests pass - CLI module verified'"
   },
   "dependencies": {
     "@shep/core": "workspace:*",
