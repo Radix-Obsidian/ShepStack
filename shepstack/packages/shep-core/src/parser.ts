@@ -122,7 +122,7 @@ class SpecParser {
   private parseSpec(): ShepSpec {
     // First line must be "app <name>"
     if (this.lines.length === 0) {
-      this.addError("Empty spec file. Must start with 'app <name>'");
+      this.addError("Empty spec file. Must start with 'app <name>'", undefined, "Create a file starting with: app \"MyAppName\"");
       return createEmptySpec("Unknown");
     }
 
@@ -130,7 +130,8 @@ class SpecParser {
     if (!firstLine.content.startsWith("app ")) {
       this.addError(
         `First line must be 'app <name>', got '${firstLine.content}'`,
-        { line: firstLine.lineNumber, column: 1 }
+        { line: firstLine.lineNumber, column: 1 },
+        "Start your file with: app \"YourAppName\""
       );
       return createEmptySpec("Unknown");
     }
@@ -147,7 +148,8 @@ class SpecParser {
       if (line.indent !== 0) {
         this.addError(
           `Unexpected indented line. Top-level declarations should not be indented.`,
-          { line: line.lineNumber, column: 1 }
+          { line: line.lineNumber, column: 1 },
+          "Remove indentation from 'entity', 'screen', 'flow', 'rule' declarations."
         );
         this.current++;
         continue;
@@ -166,10 +168,10 @@ class SpecParser {
       } else if (line.content.startsWith("event ")) {
         spec.events.push(this.parseEvent());
       } else {
-        this.addError(`Unknown declaration: '${line.content}'`, {
+        this.addErrorWithHelp(`Unknown declaration: '${line.content}'`, {
           line: line.lineNumber,
           column: 1,
-        });
+        }, line.content);
         this.current++;
       }
     }
@@ -732,11 +734,43 @@ class SpecParser {
     return [];
   }
 
-  private addError(message: string, location?: SourceLocation) {
+  private addError(message: string, location?: SourceLocation, suggestion?: string) {
     this.errors.push({
       message,
       location: location || this.currentLocation(),
+      suggestion,
     });
+  }
+
+  /**
+   * Add error with helpful suggestion based on common mistakes.
+   */
+  private addErrorWithHelp(message: string, location?: SourceLocation, context?: string) {
+    let suggestion: string | undefined;
+    
+    // Common mistake detection and suggestions
+    if (message.includes("Unknown declaration")) {
+      const content = context || "";
+      if (content.toLowerCase().includes("model")) {
+        suggestion = "Did you mean 'entity'? Shep uses 'entity' instead of 'model'.";
+      } else if (content.toLowerCase().includes("table")) {
+        suggestion = "Did you mean 'entity'? Shep uses 'entity' to define data models.";
+      } else if (content.toLowerCase().includes("page") || content.toLowerCase().includes("view")) {
+        suggestion = "Did you mean 'screen'? Shep uses 'screen' for UI definitions.";
+      } else if (content.toLowerCase().includes("api")) {
+        suggestion = "Use 'integration' to define external API connections.";
+      }
+    } else if (message.includes("First line must be")) {
+      suggestion = "Start your file with: app \"YourAppName\"";
+    } else if (message.includes("Invalid field definition")) {
+      suggestion = "Format: - fieldName: type (modifiers). Example: - email: email (required)";
+    } else if (message.includes("Invalid field type")) {
+      suggestion = "Valid types: text, number, money, email, date, datetime, boolean, file, image, enum(...), relationship(Entity), list(Entity), ai(\"prompt\")";
+    } else if (message.includes("Unexpected indented line")) {
+      suggestion = "Top-level declarations (entity, screen, flow, rule) should not be indented.";
+    }
+
+    this.addError(message, location, suggestion);
   }
 
   private currentLocation(): SourceLocation {
