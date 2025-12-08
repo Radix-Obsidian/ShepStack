@@ -1,7 +1,11 @@
 {
-  "name": "@shep/sheplang",
-  "version": "0.0.1",
+  "name": "@goldensheepai/shep-sheplang",
+  "version": "0.1.0",
   "description": "Sheplang: TypeScript-targeting DSL for full-stack applications",
+  "repository": "https://github.com/Radix-Obsidian/ShepStack/tree/main/packages/sheplang",
+  "homepage": "https://github.com/Radix-Obsidian/ShepStack",
+  "bugs": "https://github.com/Radix-Obsidian/ShepStack/issues",
+  "license": "MIT",
   "type": "module",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -17,10 +21,15 @@
     "test": "node --test dist/tests/sheplang-smoke.test.js"
   },
   "dependencies": {
-    "@shep/core": "workspace:*"
+    "@goldensheepai/shep-core": "workspace:*"
   },
   "devDependencies": {
     "@types/node": "^20.10.0",
     "typescript": "^5.3.3"
+  },
+  "files": ["dist", "package.json"],
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
   }
 }
