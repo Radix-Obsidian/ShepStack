@@ -9,9 +9,9 @@
     "test": "echo 'Tests not yet implemented'"
   },
   "dependencies": {
-    "@shep/core": "workspace:*",
-    "@shep/sheplang": "workspace:*",
-    "@shep/shepthon": "workspace:*"
+    "@goldensheepai/shep-core": "workspace:*",
+    "@goldensheepai/shep-sheplang": "workspace:*",
+    "@goldensheepai/shep-shepthon": "workspace:*"
   },
   "devDependencies": {
     "typescript": "^5.3.3"
