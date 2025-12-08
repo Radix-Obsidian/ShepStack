@@ -6,3 +6,4 @@
 export { generateAuthentication } from "./auth.js";
 export { generateAdminDashboard } from "./admin.js";
 export { generateRequirements } from "./requirements.js";
+export { generateStyles } from "./styles.js";

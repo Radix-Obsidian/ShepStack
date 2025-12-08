@@ -6,7 +6,7 @@ import { Command } from "commander";
 import { readFileSync, writeFileSync, mkdirSync } from "node:fs";
 import { dirname, basename } from "node:path";
 import { parseSpec, verifySpec, ShepSpec, VerificationResult, Rule, FlowStep, Field } from "@shep/core";
-import { generateAuthentication, generateAdminDashboard, generateRequirements } from "../generators/index.js";
+import { generateAuthentication, generateAdminDashboard, generateRequirements, generateStyles } from "../generators/index.js";
 
 export const compileCommand = new Command("compile")
   .description("Compile a .shep spec file")
@@ -94,6 +94,11 @@ export const compileCommand = new Command("compile")
 
       // Generate requirements.txt for Python dependencies
       generateRequirements(spec, options.output, hasAIPrimitives(spec));
+
+      // Generate styling assets (Tailwind + React components)
+      if (options.target === "all" || options.target === "typescript") {
+        generateStyles(spec, options.output);
+      }
 
       console.log(`\n🎉 Done! Generated code in ${options.output}/\n`);
       console.log(`   Next steps:`);
