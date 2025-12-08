@@ -116,6 +116,51 @@ entity Message:
 
 See [AI Primitives](#ai-primitives) for more details.
 
+### Advanced Types
+
+| Type | Description | Python | TypeScript | SQL |
+|------|-------------|--------|------------|-----|
+| `uuid` | UUID/GUID | `str` | `string` | `UUID` |
+| `url` | URL with validation | `str` | `string` | `VARCHAR(2048)` |
+| `phone` | Phone number | `str` | `string` | `VARCHAR(20)` |
+| `json` | Arbitrary JSON | `dict` | `object` | `JSONB` |
+| `array` | Array of primitives | `List[str]` | `string[]` | `JSONB` |
+| `computed` | Computed from other fields | `str` | `string` | `VARCHAR(255)` |
+
+### Field Constraints
+
+Apply validation constraints to fields:
+
+```shep
+entity User:
+  fields:
+    - email: email (required, unique)
+    - age: number (min=18, max=120)
+    - username: text (required, pattern="^[a-z0-9_]+$")
+    - role: text (default="user")
+```
+
+**Available Constraints:**
+
+- `required` - Field must have a value
+- `unique` - Value must be unique across all records
+- `min=N` - Minimum value (for numbers) or minimum length (for text)
+- `max=N` - Maximum value (for numbers) or maximum length (for text)
+- `pattern="regex"` - Must match regex pattern
+- `default=value` - Default value if not provided
+
+### Computed Fields
+
+Fields that are automatically calculated from other fields:
+
+```shep
+entity Order:
+  fields:
+    - subtotal: money (required)
+    - tax: money (required)
+    - total: computed (compute="subtotal + tax")
+```
+
 ---
 
 ## Screens

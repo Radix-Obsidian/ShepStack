@@ -447,6 +447,8 @@ class SpecVerifier {
       case "datetime":
       case "file":
       case "image":
+      case "url":
+      case "phone":
         return { kind: "primitive", name: field.fieldType, nullable: !field.required };
       
       case "number":
@@ -455,6 +457,18 @@ class SpecVerifier {
       
       case "boolean":
         return { kind: "primitive", name: "boolean", nullable: !field.required };
+      
+      case "uuid":
+        return { kind: "primitive", name: "uuid", nullable: !field.required };
+      
+      case "json":
+        return { kind: "primitive", name: "json", nullable: !field.required };
+      
+      case "array":
+        return { kind: "list", name: "array", nullable: !field.required };
+      
+      case "computed":
+        return { kind: "primitive", name: "computed", nullable: true };
       
       case "enum":
         return { 

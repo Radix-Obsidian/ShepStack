@@ -768,6 +768,13 @@ function fieldTypeToPython(type: string, relatedEntity?: string, enumValues?: st
     case "relationship": return `"${relatedEntity}"` || "str";
     case "list": return `List["${relatedEntity}"]` || "List[str]";
     case "ai": return "str"; // AI-derived fields are computed strings
+    // Advanced types (production-ready)
+    case "uuid": return "str";  // Use str for UUID (Pydantic can validate)
+    case "url": return "str";   // URL string
+    case "phone": return "str"; // Phone number as string
+    case "json": return "dict"; // dict for JSON data
+    case "array": return "List[str]"; // Simple array of strings
+    case "computed": return "str"; // Computed fields are strings
     default: return "str";
   }
 }
@@ -786,6 +793,13 @@ function fieldTypeToSQL(type: string, enumValues?: string[]): string {
     case "enum": return `VARCHAR(50)`;
     case "relationship": return "UUID REFERENCES";
     case "list": return "JSONB";
+    // Advanced types (production-ready)
+    case "uuid": return "UUID";
+    case "url": return "VARCHAR(2048)";
+    case "phone": return "VARCHAR(20)";
+    case "json": return "JSONB";
+    case "array": return "JSONB";
+    case "computed": return "VARCHAR(255)";
     default: return "VARCHAR(255)";
   }
 }

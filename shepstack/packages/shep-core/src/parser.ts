@@ -300,10 +300,32 @@ class SpecParser {
         field.required = true;
       } else if (mod === "unique") {
         field.unique = true;
+      } else if (mod === "computed") {
+        field.computed = true;
       } else if (mod.startsWith("min=")) {
         field.min = parseInt(mod.substring(4), 10);
       } else if (mod.startsWith("max=")) {
         field.max = parseInt(mod.substring(4), 10);
+      } else if (mod.startsWith("pattern=")) {
+        // Extract regex pattern, handling quotes
+        const patternStr = mod.substring(8).trim();
+        field.pattern = patternStr.replace(/^["']|["']$/g, "");
+      } else if (mod.startsWith("default=")) {
+        // Parse default value
+        const defaultStr = mod.substring(8).trim();
+        if (defaultStr === "true") {
+          field.defaultValue = true;
+        } else if (defaultStr === "false") {
+          field.defaultValue = false;
+        } else if (!isNaN(Number(defaultStr))) {
+          field.defaultValue = Number(defaultStr);
+        } else {
+          field.defaultValue = defaultStr.replace(/^["']|["']$/g, "");
+        }
+      } else if (mod.startsWith("compute=")) {
+        // Computed expression
+        field.computedExpression = mod.substring(8).trim().replace(/^["']|["']$/g, "");
+        field.computed = true;
       }
     }
 
@@ -370,13 +392,20 @@ class SpecParser {
       "file",
       "image",
       "ai",
+      // Advanced types
+      "uuid",
+      "url",
+      "phone",
+      "json",
+      "array",
+      "computed",
     ];
 
     if (validTypes.includes(type as FieldType)) {
       return type as FieldType;
     }
 
-    // Default to text
+    // Default to text with warning (will be caught by verifier)
     return "text";
   }
 

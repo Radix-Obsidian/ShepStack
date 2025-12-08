@@ -82,6 +82,8 @@ export interface Field {
   min?: number;
   /** Maximum value (for numbers) or maximum length (for text) */
   max?: number;
+  /** Regex pattern for validation */
+  pattern?: string;
   /** Default value */
   defaultValue?: string | number | boolean;
   /** For relationship fields: the related entity name */
@@ -92,6 +94,10 @@ export interface Field {
   aiPrompt?: string;
   /** For AI fields: the source field(s) to derive from */
   aiSourceFields?: string[];
+  /** For computed fields: expression to compute value */
+  computedExpression?: string;
+  /** Whether this is a computed field (derived from other fields) */
+  computed?: boolean;
   /** Source location */
   location?: SourceLocation;
 }
@@ -113,7 +119,14 @@ export type FieldType =
   | "enum" // predefined set of values
   | "relationship" // reference to another entity
   | "list" // array of another type
-  | "ai"; // AI-derived field (computed by LLM)
+  | "ai" // AI-derived field (computed by LLM)
+  // Advanced types (added for production readiness)
+  | "uuid" // UUID/GUID
+  | "url" // URL with validation
+  | "phone" // phone number
+  | "json" // arbitrary JSON data
+  | "array" // simple array of primitives
+  | "computed"; // computed from other fields
 
 // ============================================================================
 // Screens (UI Definitions)
