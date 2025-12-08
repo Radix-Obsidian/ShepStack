@@ -131,7 +131,7 @@ action EscalateTicket {
 
 ---
 
-## Phase 4: Developer Experience 🚧 IN PROGRESS
+## Phase 4: Developer Experience ✅ COMPLETE
 
 **Goal**: Make it easy to write, test, and debug ShepLang programs
 
@@ -143,27 +143,25 @@ action EscalateTicket {
   - [x] `shep new` — scaffold new project
   - [x] `shep dev` — watch mode with hot reload
   - [x] `shep deploy` — deployment helpers
-
-### Partial 🚧
-
-- [ ] **VS Code extension**
+  - [x] `shep draft` — AI generates ShepLang from description
+- [x] **VS Code extension**
   - [x] Extension scaffolding
   - [x] Language registration
-  - [ ] Syntax highlighting
-  - [ ] Diagnostics integration
-  - [ ] Code completion
-  - [ ] Hover information
-
-### Not Started 📋
-
-- [ ] **AI-assisted program generation**
-  - [ ] `shep draft "description"` → generates .shep file
-  - [ ] Natural language → ShepLang conversion
-- [ ] **Language server (LSP)**
-  - [ ] Full LSP protocol implementation
-  - [ ] Real-time diagnostics
-  - [ ] Go to definition
-  - [ ] Find references
+  - [x] Syntax highlighting (TextMate grammar)
+  - [x] Diagnostics integration
+  - [x] Code completion
+  - [x] Hover information
+- [x] **AI-assisted program generation**
+  - [x] `shep draft "description"` → generates .shep file
+  - [x] Natural language → ShepLang conversion
+  - [x] Uses new ShepLang syntax (data, view, action, task)
+- [x] **Language server (LSP)**
+  - [x] Full LSP protocol implementation
+  - [x] Real-time diagnostics
+  - [x] Go to definition
+  - [x] Find references
+  - [x] Hover information
+  - [x] Code completion
 
 ---
 
