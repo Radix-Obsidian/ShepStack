@@ -38,11 +38,7 @@
         "extensions": [
           ".shep"
         ],
-        "configuration": "./language-configuration.json",
-        "icon": {
-          "light": "./icons/shep-light.png",
-          "dark": "./icons/shep-dark.png"
-        }
+        "configuration": "./language-configuration.json"
       },
       {
         "id": "sheplang",
@@ -77,12 +73,26 @@
   },
   "scripts": {
     "build": "tsc -b",
+    "package": "vsce package",
+    "publish:vscode": "vsce publish",
+    "publish:openvsx": "ovsx publish",
     "lint": "echo 'Lint not yet configured'",
     "test": "echo 'Tests not yet configured'"
+  },
+  "galleryBanner": {
+    "color": "#1e1e1e",
+    "theme": "dark"
+  },
+  "license": "MIT",
+  "homepage": "https://github.com/Radix-Obsidian/ShepStack",
+  "bugs": {
+    "url": "https://github.com/Radix-Obsidian/ShepStack/issues"
   },
   "devDependencies": {
     "@types/node": "^20.10.0",
     "@types/vscode": "^1.85.0",
+    "@vscode/vsce": "^2.22.0",
+    "ovsx": "^0.8.3",
     "typescript": "^5.3.3"
   },
   "dependencies": {

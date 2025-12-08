@@ -1,37 +1,81 @@
 # ShepLang for VS Code
 
-Language support for ShepLang in Visual Studio Code.
+**The first programming language with AI as a built-in verb.**
+
+Full language support for ShepLang in VS Code, Windsurf, and Cursor.
 
 ## Features
 
 | Feature | Status |
 |---------|--------|
-| Syntax highlighting | 🚧 In progress |
-| Diagnostics | 📋 Planned |
-| Code completion | 📋 Planned |
-| Hover information | 📋 Planned |
-| Go to definition | 📋 Planned |
+| ✅ Syntax highlighting | Complete |
+| ✅ Diagnostics | Complete |
+| ✅ Code completion | Complete |
+| ✅ Hover information | Complete |
+| ✅ Go to definition | Complete |
+| ✅ Find references | Complete |
+
+## What is ShepLang?
+
+ShepLang is an AI-native programming language that compiles to Python, TypeScript, and SQL.
+
+```shep
+data Ticket {
+  message: text (required)
+  sentiment: ai("classify as positive, neutral, negative")
+}
+
+action EscalateTicket {
+  if ai(message, "sounds frustrated") {
+    set status = escalated
+  }
+}
+```
+
+**AI is a language primitive** — not an import, not a library.
 
 ## Installation
 
-This extension is part of the ShepLang mono-repo and is not yet published to the VS Code marketplace.
+### VS Code / Windsurf / Cursor
 
-For development, open the `editors/vscode-extension` folder in VS Code and press F5 to launch a test instance.
+Search for "ShepLang" in the Extensions marketplace.
 
-## Development
+### CLI
 
 ```bash
-# Build the extension
-pnpm -C editors/vscode-extension build
-
-# Run tests
-pnpm -C editors/vscode-extension test
+npm install -g @goldensheepai/shep-cli
 ```
 
-## File Associations
+## Quick Start
 
-The extension registers `.shep` files as ShepLang programs.
+```bash
+# Create new project
+shep new my-app
+
+# Or let AI write your program
+shep draft "A task manager with priorities"
+
+# Compile
+shep compile --input app.shep --output generated
+```
+
+## Language Constructs
+
+| Construct | Purpose |
+|-----------|---------|
+| `app` | Program declaration |
+| `data` | Data models |
+| `view` | UI components |
+| `action` | Business logic |
+| `task` | Background jobs |
+| `ai()` | AI primitive |
+
+## Links
+
+- [GitHub](https://github.com/Radix-Obsidian/ShepStack)
+- [Documentation](https://github.com/Radix-Obsidian/ShepStack/tree/main/shepstack/docs)
+- [npm](https://www.npmjs.com/package/@goldensheepai/shep-cli)
 
 ---
 
-*ShepLang: A programming language for the AI era.*
+**AI writes the code. You own the vision.** 🐑
