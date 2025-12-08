@@ -1,19 +1,30 @@
 {
-  "name": "vscode-shep",
-  "displayName": "Shep Language Support",
-  "description": "Language support for Shep in Visual Studio Code",
-  "version": "0.0.1",
-  "publisher": "shep",
+  "name": "sheplang",
+  "displayName": "ShepLang",
+  "description": "Language support for ShepLang - An AI-native programming language for describing software products",
+  "version": "0.1.0",
+  "publisher": "goldensheepai",
   "engines": {
     "vscode": "^1.85.0"
   },
   "categories": [
     "Programming Languages",
-    "Linters"
+    "Linters",
+    "Snippets"
   ],
+  "keywords": [
+    "sheplang",
+    "shep",
+    "ai",
+    "dsl",
+    "code-generation"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Radix-Obsidian/ShepStack"
+  },
   "activationEvents": [
-    "onLanguage:sheplang",
-    "onLanguage:shepthon"
+    "onLanguage:shep"
   ],
   "main": "dist/extension.js",
   "contributes": {

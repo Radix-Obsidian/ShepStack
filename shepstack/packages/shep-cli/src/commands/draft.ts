@@ -1,10 +1,15 @@
 /**
- * Shep Draft Command
+ * ShepLang Draft Command
  *
- * AI-assisted spec writing: generates a .shep file from plain English.
- * The killer feature that makes Shep accessible to non-technical founders.
+ * AI-assisted program generation: generates a .shep file from natural language.
+ * ShepLang's key differentiator - AI writes code, humans review.
  *
- * "I want a SaaS for dog groomers" → complete .shep spec
+ * "I want a SaaS for dog groomers" → complete .shep program
+ * 
+ * This embodies the ShepLang vision:
+ * - AI agents are primary users (they write ShepLang)
+ * - Humans review and approve
+ * - ShepLang compiles to Python + TypeScript + SQL
  */
 
 import { Command } from "commander";
@@ -17,8 +22,8 @@ import * as readline from "readline";
 // ============================================================================
 
 export const draftCommand = new Command("draft")
-  .description("Generate a .shep spec from plain English using AI")
-  .argument("[description]", "Plain English description of your app")
+  .description("Generate a ShepLang program from natural language using AI")
+  .argument("[description]", "Natural language description of your software product")
   .option("-o, --output <file>", "Output file path", "app.shep")
   .option("-i, --interactive", "Interactive mode - ask clarifying questions")
   .option("--provider <provider>", "AI provider: claude or openai", "claude")
@@ -52,8 +57,8 @@ interface AppRequirements {
 // ============================================================================
 
 async function runDraft(description: string | undefined, options: DraftOptions): Promise<void> {
-  console.log("\n🐑 Shep Draft v0.1.0");
-  console.log("   AI-assisted spec writing\n");
+  console.log("\n🐑 ShepLang Draft v0.1.0");
+  console.log("   AI → ShepLang → Python + TypeScript + SQL\n");
 
   // Get description interactively if not provided
   let requirements: AppRequirements;
@@ -168,77 +173,143 @@ async function generateSpecWithAI(
 }
 
 function buildSystemPrompt(): string {
-  return `You are an expert at writing Shep specification files. Shep is a spec-first language that generates Python (FastAPI) backends and TypeScript (React) frontends.
+  return `You are an expert ShepLang programmer. ShepLang is an AI-native programming language for describing software products.
 
-Your job is to take a plain English description of an app and generate a complete, valid .shep specification file.
+**ShepLang's key differentiator:** AI is a built-in verb, not an integration.
 
-## Shep Syntax Reference
+Your job is to generate a complete, valid .shep program from a natural language description.
+
+## ShepLang Syntax Reference
 
 \`\`\`shep
 app "AppName"
-  description: "What this app does"
-  version: "1.0"
 
-# Entities define your data model
-entity EntityName:
-  fields:
-    - fieldName: type (required)
-    - optionalField: type
+# ============================================================================
+# DATA - Define your data models (compiles to Python + TypeScript + SQL)
+# ============================================================================
+
+data User {
+  email: email (required, unique)
+  name: text (required)
+  role: enum(admin, member)
+  createdAt: datetime
+}
+
+data Task {
+  title: text (required)
+  description: text
+  status: enum(todo, in_progress, done)
+  priority: enum(low, medium, high)
+  assignee: User                    # Relationship to another data type
+  dueDate: date
   
-# Field types: text, number, money, email, date, datetime, boolean, file, image
-# Special types:
-#   - enum(value1, value2, value3)
-#   - relationship(EntityName)
-#   - list(EntityName)
-#   - ai("prompt to compute this field")
+  # AI-derived field - computed by LLM
+  urgencyScore: ai("rate urgency 1-10 based on priority and due date")
+}
 
-# Screens define your UI
-screen ScreenName (kind):
-  entity: EntityName
-  fields: [field1, field2]
+# Field types:
+#   text, number, money, email, date, datetime, boolean, file, image
+#   uuid, url, phone, json, array
+#   enum(value1, value2, value3)
+#   EntityName (relationship)
+#   list(EntityName)
+#   ai("prompt") - AI-computed field
 
-# Screen kinds: form, list, detail, dashboard, wizard
+# Modifiers:
+#   (required) (unique) (computed)
+#   min=N max=N default=value pattern="regex"
 
-# Flows describe user journeys (numbered steps)
-flow "Flow Name":
-  1. Description of step 1
-  2. Description of step 2
-  ai: AI does something  # AI-powered step
+# ============================================================================
+# VIEW - Define UI components (compiles to React components)
+# ============================================================================
 
-# Rules define business logic
-rule "Rule Name":
-  if condition → action
+view TaskList {
+  show: [title, status, priority, assignee]
+  filter: [status, priority]
+  sort: dueDate asc
+}
 
-# AI-powered rules:
-rule "Rule Name":
-  if ai(entity.field, "condition description") → action
+view TaskForm {
+  input: [title, description, status, priority, assignee, dueDate]
+  submit: CreateTask
+}
 
-# Integrations declare external services
-integration IntegrationName:
-  purpose: "what it's for"
+view TaskDetail {
+  show: [title, description, status, priority, assignee, dueDate, urgencyScore]
+  actions: [complete, delete]
+}
 
-# Events for analytics/tracking
-event EventName:
-  fields: [field1, field2]
+# ============================================================================
+# ACTION - Define business logic (compiles to API endpoints)
+# ============================================================================
+
+action CreateTask {
+  validate title is not empty
+  save Task
+  notify assignee
+}
+
+action CompleteTask {
+  set status = done
+  log "Task completed: \${title}"
+}
+
+action EscalateTask {
+  # AI as a language primitive - the key differentiator
+  if ai(description, "sounds urgent or blocked") {
+    set priority = high
+    alert manager
+  }
+}
+
+# ============================================================================
+# TASK - Background processes (compiles to async jobs)
+# ============================================================================
+
+task DailyDigest {
+  on: schedule("0 9 * * *")  # 9am daily
+  ai: summarize today's tasks
+  notify all users
+}
+
+# ============================================================================
+# RULE - Business constraints
+# ============================================================================
+
+rule "Only admins can delete":
+  if user.role != admin → reject delete
+
+rule "Auto-escalate frustrated customers":
+  if ai(message.content, "sounds frustrated or angry") → escalate
+
+# ============================================================================
+# INTEGRATION - External services
+# ============================================================================
+
+integration Claude:
+  purpose: "AI for content generation and classification"
+
+integration Stripe:
+  purpose: "Payment processing"
 \`\`\`
 
 ## Guidelines
 
-1. **Be comprehensive** - Include all entities needed for the described app
-2. **Use AI primitives** - Add ai() fields and rules where intelligent behavior helps
+1. **Use the new syntax** - data, view, action, task (NOT entity, screen, flow)
+2. **AI as a primitive** - Use ai() for fields, conditions, and task steps
 3. **Include common patterns**:
-   - User/Account entities if authentication is implied
-   - created_at/updated_at timestamps
-   - status enums for stateful entities
-4. **Add realistic flows** - Map out actual user journeys
-5. **Include integrations** - Claude for AI, Stripe for payments, etc.
-6. **Write clear rules** - Business logic that makes the app work
+   - User data type if authentication is implied
+   - createdAt/updatedAt timestamps
+   - Status enums for stateful entities
+4. **Views for every data type** - List, Form, Detail views
+5. **Actions for CRUD + business logic**
+6. **Include Claude integration** if using any ai() constructs
 
-Output ONLY the .shep file content, no explanations or markdown code blocks.`;
+Output ONLY the .shep file content. No markdown code blocks or explanations.`;
 }
 
 function buildUserPrompt(requirements: AppRequirements): string {
-  let prompt = `Generate a complete .shep specification for the following app:\n\n`;
+  let prompt = `Generate a complete ShepLang program (.shep file) for:\n\n`;
   prompt += `**Description:** ${requirements.description}\n`;
 
   if (requirements.features && requirements.features.length > 0) {

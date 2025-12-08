@@ -1,22 +1,28 @@
 {
   "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
-  "name": "Shep",
+  "name": "ShepLang",
   "scopeName": "source.shep",
+  "fileTypes": ["shep"],
   "patterns": [
     { "include": "#comments" },
     { "include": "#app-declaration" },
-    { "include": "#entity" },
-    { "include": "#screen" },
-    { "include": "#flow" },
-    { "include": "#rule" },
-    { "include": "#integration" },
-    { "include": "#event" },
+    { "include": "#data-block" },
+    { "include": "#view-block" },
+    { "include": "#action-block" },
+    { "include": "#task-block" },
+    { "include": "#entity-block" },
+    { "include": "#screen-block" },
+    { "include": "#flow-block" },
+    { "include": "#rule-block" },
+    { "include": "#integration-block" },
+    { "include": "#ai-construct" },
     { "include": "#strings" },
+    { "include": "#field-types" },
+    { "include": "#modifiers" },
     { "include": "#keywords" },
-    { "include": "#types" },
-    { "include": "#ai" },
     { "include": "#numbers" },
-    { "include": "#operators" }
+    { "include": "#operators" },
+    { "include": "#punctuation" }
   ],
   "repository": {
     "comments": {
@@ -32,24 +38,96 @@
         {
           "match": "^(app)\\s+(\"[^\"]+\")",
           "captures": {
-            "1": { "name": "keyword.control.shep" },
-            "2": { "name": "string.quoted.double.shep" }
+            "1": { "name": "keyword.declaration.app.shep" },
+            "2": { "name": "string.quoted.double.app-name.shep" }
           }
         }
       ]
     },
-    "entity": {
+    "data-block": {
+      "patterns": [
+        {
+          "match": "^(data)\\s+([A-Z][a-zA-Z0-9_]*)\\s*\\{",
+          "captures": {
+            "1": { "name": "keyword.declaration.data.shep" },
+            "2": { "name": "entity.name.type.data.shep" }
+          }
+        },
+        {
+          "match": "^(data)\\s+([A-Z][a-zA-Z0-9_]*)\\s*:",
+          "captures": {
+            "1": { "name": "keyword.declaration.data.shep" },
+            "2": { "name": "entity.name.type.data.shep" }
+          }
+        }
+      ]
+    },
+    "view-block": {
+      "patterns": [
+        {
+          "match": "^(view)\\s+([A-Z][a-zA-Z0-9_]*)\\s*\\{",
+          "captures": {
+            "1": { "name": "keyword.declaration.view.shep" },
+            "2": { "name": "entity.name.type.view.shep" }
+          }
+        },
+        {
+          "match": "^(view)\\s+([A-Z][a-zA-Z0-9_]*)\\s*:",
+          "captures": {
+            "1": { "name": "keyword.declaration.view.shep" },
+            "2": { "name": "entity.name.type.view.shep" }
+          }
+        }
+      ]
+    },
+    "action-block": {
+      "patterns": [
+        {
+          "match": "^(action)\\s+([A-Z][a-zA-Z0-9_]*)\\s*\\{",
+          "captures": {
+            "1": { "name": "keyword.declaration.action.shep" },
+            "2": { "name": "entity.name.function.action.shep" }
+          }
+        },
+        {
+          "match": "^(action)\\s+([A-Z][a-zA-Z0-9_]*)\\s*:",
+          "captures": {
+            "1": { "name": "keyword.declaration.action.shep" },
+            "2": { "name": "entity.name.function.action.shep" }
+          }
+        }
+      ]
+    },
+    "task-block": {
+      "patterns": [
+        {
+          "match": "^(task)\\s+([A-Z][a-zA-Z0-9_]*)\\s*\\{",
+          "captures": {
+            "1": { "name": "keyword.declaration.task.shep" },
+            "2": { "name": "entity.name.function.task.shep" }
+          }
+        },
+        {
+          "match": "^(task)\\s+([A-Z][a-zA-Z0-9_]*)\\s*:",
+          "captures": {
+            "1": { "name": "keyword.declaration.task.shep" },
+            "2": { "name": "entity.name.function.task.shep" }
+          }
+        }
+      ]
+    },
+    "entity-block": {
       "patterns": [
         {
           "match": "^(entity)\\s+([A-Z][a-zA-Z0-9_]*)\\s*:",
           "captures": {
             "1": { "name": "keyword.declaration.entity.shep" },
-            "2": { "name": "entity.name.type.shep" }
+            "2": { "name": "entity.name.type.entity.shep" }
           }
         }
       ]
     },
-    "screen": {
+    "screen-block": {
       "patterns": [
         {
           "match": "^(screen)\\s+([A-Z][a-zA-Z0-9_]*)\\s*\\((form|list|detail|dashboard|wizard|api)\\)\\s*:",
@@ -61,7 +139,7 @@
         }
       ]
     },
-    "flow": {
+    "flow-block": {
       "patterns": [
         {
           "match": "^(flow)\\s+(\"[^\"]+\")\\s*:",
@@ -75,16 +153,10 @@
           "captures": {
             "1": { "name": "constant.numeric.step.shep" }
           }
-        },
-        {
-          "match": "^\\s*(ai):",
-          "captures": {
-            "1": { "name": "keyword.control.ai.shep" }
-          }
         }
       ]
     },
-    "rule": {
+    "rule-block": {
       "patterns": [
         {
           "match": "^(rule)\\s+(\"[^\"]+\")\\s*:",
@@ -92,18 +164,10 @@
             "1": { "name": "keyword.declaration.rule.shep" },
             "2": { "name": "string.quoted.double.shep" }
           }
-        },
-        {
-          "match": "\\b(if)\\b",
-          "name": "keyword.control.conditional.shep"
-        },
-        {
-          "match": "→|->",
-          "name": "keyword.operator.arrow.shep"
         }
       ]
     },
-    "integration": {
+    "integration-block": {
       "patterns": [
         {
           "match": "^(integration)\\s+([A-Z][a-zA-Z0-9_]*)\\s*:",
@@ -114,13 +178,28 @@
         }
       ]
     },
-    "event": {
+    "ai-construct": {
       "patterns": [
         {
-          "match": "^(event)\\s+([A-Z][a-zA-Z0-9_]*)\\s*:",
+          "comment": "AI field type: ai(\"prompt\")",
+          "begin": "\\b(ai)\\(",
+          "beginCaptures": {
+            "1": { "name": "keyword.other.ai.shep" }
+          },
+          "end": "\\)",
+          "endCaptures": {
+            "0": { "name": "punctuation.definition.ai.end.shep" }
+          },
+          "patterns": [
+            { "include": "#strings" }
+          ],
+          "name": "meta.ai-call.shep"
+        },
+        {
+          "comment": "AI step in flow/task",
+          "match": "^\\s*(ai)\\s*:",
           "captures": {
-            "1": { "name": "keyword.declaration.event.shep" },
-            "2": { "name": "entity.name.type.event.shep" }
+            "1": { "name": "keyword.other.ai.shep" }
           }
         }
       ]
@@ -137,63 +216,106 @@
               "match": "\\\\."
             }
           ]
+        },
+        {
+          "name": "string.quoted.single.shep",
+          "begin": "'",
+          "end": "'",
+          "patterns": [
+            {
+              "name": "constant.character.escape.shep",
+              "match": "\\\\."
+            }
+          ]
+        }
+      ]
+    },
+    "field-types": {
+      "patterns": [
+        {
+          "comment": "Primitive types",
+          "name": "support.type.primitive.shep",
+          "match": "\\b(text|number|money|email|date|datetime|boolean|file|image|uuid|url|phone|json|array)\\b"
+        },
+        {
+          "comment": "Enum type with values",
+          "begin": "\\b(enum)\\(",
+          "beginCaptures": {
+            "1": { "name": "support.type.enum.shep" }
+          },
+          "end": "\\)",
+          "patterns": [
+            {
+              "name": "variable.parameter.enum-value.shep",
+              "match": "[a-zA-Z_][a-zA-Z0-9_]*"
+            },
+            {
+              "name": "punctuation.separator.comma.shep",
+              "match": ","
+            }
+          ]
+        },
+        {
+          "comment": "Relationship to entity",
+          "match": "\\b([A-Z][a-zA-Z0-9_]*)\\b(?=\\s*[,\\)\\}]|\\s*$)",
+          "captures": {
+            "1": { "name": "entity.name.type.reference.shep" }
+          }
+        },
+        {
+          "comment": "List type",
+          "match": "\\b(list)\\(([A-Z][a-zA-Z0-9_]*)\\)",
+          "captures": {
+            "1": { "name": "support.type.list.shep" },
+            "2": { "name": "entity.name.type.reference.shep" }
+          }
+        }
+      ]
+    },
+    "modifiers": {
+      "patterns": [
+        {
+          "comment": "Field modifiers in parentheses",
+          "match": "\\((required|unique|computed)\\)",
+          "captures": {
+            "1": { "name": "storage.modifier.shep" }
+          }
+        },
+        {
+          "comment": "Standalone modifiers",
+          "match": "\\b(required|unique|computed)\\b",
+          "name": "storage.modifier.shep"
+        },
+        {
+          "comment": "Constraint modifiers with values",
+          "match": "\\b(min|max|default|pattern)\\s*=\\s*",
+          "captures": {
+            "1": { "name": "storage.modifier.constraint.shep" }
+          }
         }
       ]
     },
     "keywords": {
       "patterns": [
         {
+          "comment": "Top-level declarations",
           "name": "keyword.declaration.shep",
-          "match": "\\b(app|entity|screen|flow|rule|integration|event)\\b"
+          "match": "\\b(app|data|view|action|task|entity|screen|flow|rule|integration)\\b"
         },
         {
-          "name": "keyword.other.shep",
-          "match": "\\b(fields|description|version|purpose|endpoint|entity|widgets|steps)\\b"
+          "comment": "Control flow",
+          "name": "keyword.control.shep",
+          "match": "\\b(if|else|on|when|then)\\b"
         },
         {
-          "name": "keyword.modifier.shep",
-          "match": "\\((required)\\)",
-          "captures": {
-            "1": { "name": "keyword.modifier.required.shep" }
-          }
-        }
-      ]
-    },
-    "types": {
-      "patterns": [
-        {
-          "name": "support.type.primitive.shep",
-          "match": "\\b(text|number|money|email|date|datetime|boolean|file|image)\\b"
+          "comment": "Action keywords",
+          "name": "keyword.other.action.shep",
+          "match": "\\b(set|save|delete|notify|alert|log|validate|reject|show|hide|redirect)\\b"
         },
         {
-          "match": "\\b(enum)\\(([^)]+)\\)",
-          "captures": {
-            "1": { "name": "support.type.enum.shep" },
-            "2": { "name": "string.unquoted.enum-values.shep" }
-          }
-        },
-        {
-          "match": "\\b(relationship|list)\\(([A-Z][a-zA-Z0-9_]*)\\)",
-          "captures": {
-            "1": { "name": "support.type.reference.shep" },
-            "2": { "name": "entity.name.type.shep" }
-          }
-        }
-      ]
-    },
-    "ai": {
-      "patterns": [
-        {
-          "match": "\\b(ai)\\(",
-          "captures": {
-            "1": { "name": "keyword.control.ai.shep" }
-          }
-        },
-        {
-          "match": "\\b(ai)\\s*:",
-          "captures": {
-            "1": { "name": "keyword.control.ai.shep" }
-          }
+          "comment": "Block properties",
+          "name": "variable.language.property.shep",
+          "match": "\\b(fields|show|filter|sort|input|submit|actions|scope|on)\\b(?=\\s*:)"
         }
       ]
     },
@@ -208,12 +330,48 @@
     "operators": {
       "patterns": [
         {
-          "name": "keyword.operator.shep",
-          "match": "==|!=|<=|>=|<|>|&&|\\|\\||!"
+          "name": "keyword.operator.comparison.shep",
+          "match": "==|!=|<=|>=|<|>"
+        },
+        {
+          "name": "keyword.operator.logical.shep",
+          "match": "&&|\\|\\||!"
+        },
+        {
+          "name": "keyword.operator.arrow.shep",
+          "match": "→|->|=>"
         },
         {
           "name": "keyword.operator.assignment.shep",
           "match": "="
+        }
+      ]
+    },
+    "punctuation": {
+      "patterns": [
+        {
+          "name": "punctuation.definition.block.begin.shep",
+          "match": "\\{"
+        },
+        {
+          "name": "punctuation.definition.block.end.shep",
+          "match": "\\}"
+        },
+        {
+          "name": "punctuation.definition.array.begin.shep",
+          "match": "\\["
+        },
+        {
+          "name": "punctuation.definition.array.end.shep",
+          "match": "\\]"
+        },
+        {
+          "name": "punctuation.separator.colon.shep",
+          "match": ":"
+        },
+        {
+          "name": "punctuation.separator.comma.shep",
+          "match": ","
         }
       ]
     }
