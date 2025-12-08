@@ -11,6 +11,9 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=flat-square)](https://opensource.org/licenses/MIT)
 [![npm](https://img.shields.io/npm/v/@goldensheepai/shep-cli?style=flat-square)](https://www.npmjs.com/package/@goldensheepai/shep-cli)
 [![VS Code](https://img.shields.io/visual-studio-marketplace/v/goldensheepai.sheplang?style=flat-square)](https://marketplace.visualstudio.com/items?itemName=goldensheepai.sheplang)
+[![Open VSX](https://img.shields.io/open-vsx/v/goldensheepai.sheplang?style=flat-square)](https://open-vsx.org/extension/goldensheepai/sheplang)
+[![GitHub stars](https://img.shields.io/github/stars/Radix-Obsidian/ShepStack?style=flat-square)](https://github.com/Radix-Obsidian/ShepStack)
+[![GitHub release](https://img.shields.io/github/release/Radix-Obsidian/ShepStack?style=flat-square)](https://github.com/Radix-Obsidian/ShepStack/releases)
 
 ---
 
