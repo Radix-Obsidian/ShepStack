@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="https://raw.githubusercontent.com/Radix-Obsidian/ShepStack/main/shepstack/branding/logo-256.png" alt="ShepLang Logo" width="128" />
+</p>
+
 # ShepLang for VS Code
 
 **The first programming language with AI as a built-in verb.**

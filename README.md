@@ -1,6 +1,12 @@
-# 🐑 ShepLang
+<p align="center">
+  <img src="shepstack/branding/logo-256.png" alt="ShepLang Logo" width="128" />
+</p>
 
-**The first programming language with AI as a built-in verb.**
+<h1 align="center">ShepLang</h1>
+
+<p align="center">
+  <strong>The first programming language with AI as a built-in verb.</strong>
+</p>
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=flat-square)](https://opensource.org/licenses/MIT)
 [![npm](https://img.shields.io/npm/v/@goldensheepai/shep-cli?style=flat-square)](https://www.npmjs.com/package/@goldensheepai/shep-cli)

@@ -1,6 +1,12 @@
-# 🐑 ShepLang
+<p align="center">
+  <img src="branding/logo-256.png" alt="ShepLang Logo" width="128" />
+</p>
 
-**An AI-native programming language for describing software products.**
+<h1 align="center">ShepLang</h1>
+
+<p align="center">
+  <strong>An AI-native programming language for describing software products.</strong>
+</p>
 
 ShepLang has first-class concepts like `app`, `data`, `view`, `action`, and `task`, plus `ai` as a built-in verb. A ShepLang program compiles to Python + JavaScript services (via ShepThon) with auth, admin, and APIs generated automatically. Both humans and LLMs can read and write ShepLang.
 

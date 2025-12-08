@@ -79,6 +79,7 @@
     "lint": "echo 'Lint not yet configured'",
     "test": "echo 'Tests not yet configured'"
   },
+  "icon": "icon.png",
   "galleryBanner": {
     "color": "#1e1e1e",
     "theme": "dark"
