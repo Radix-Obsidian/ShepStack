@@ -2,7 +2,7 @@
   "name": "sheplang",
   "displayName": "ShepLang",
   "description": "Language support for ShepLang - An AI-native programming language for describing software products",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "publisher": "goldensheepai",
   "engines": {
     "vscode": "^1.85.0"
