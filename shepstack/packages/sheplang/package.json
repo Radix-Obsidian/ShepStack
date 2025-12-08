@@ -1,6 +1,6 @@
 {
   "name": "@goldensheepai/shep-sheplang",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Sheplang: TypeScript-targeting DSL for full-stack applications",
   "repository": "https://github.com/Radix-Obsidian/ShepStack/tree/main/packages/sheplang",
   "homepage": "https://github.com/Radix-Obsidian/ShepStack",
