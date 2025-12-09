@@ -33,7 +33,7 @@ import {
 } from "vscode-languageserver/node";
 
 import { TextDocument } from "vscode-languageserver-textdocument";
-import { parseSpec, verifySpec, ShepSpec } from "@shep/core";
+import { parseSpec, verifySpec, ShepSpec } from "@goldensheepai/shep-core";
 
 // =============================================================================
 // Server Setup

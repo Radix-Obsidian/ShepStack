@@ -1,6 +1,6 @@
 {
   "name": "@goldensheepai/shep-core",
-  "version": "0.1.2",
+  "version": "0.1.4",
   "description": "Shep language core: parser, verifier, type system, and code generation",
   "repository": "https://github.com/Radix-Obsidian/ShepStack/tree/main/packages/shep-core",
   "homepage": "https://github.com/Radix-Obsidian/ShepStack",

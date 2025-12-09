@@ -10,7 +10,7 @@
 import { Command } from "commander";
 import * as fs from "fs";
 import * as path from "path";
-import { parseSpec, verifySpec, VerificationResult, VerificationIssue } from "@shep/core";
+import { parseSpec, verifySpec, VerificationResult, VerificationIssue } from "@goldensheepai/shep-core";
 
 // ============================================================================
 // Command Definition

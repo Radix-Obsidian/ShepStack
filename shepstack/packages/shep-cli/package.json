@@ -1,6 +1,6 @@
 {
   "name": "@goldensheepai/shep-cli",
-  "version": "0.1.2",
+  "version": "0.1.4",
   "description": "Shep CLI: Compile, verify, and deploy Shep specifications",
   "repository": "https://github.com/Radix-Obsidian/ShepStack/tree/main/packages/shep-cli",
   "homepage": "https://github.com/Radix-Obsidian/ShepStack",
@@ -17,9 +17,9 @@
     "test": "echo 'Tests pass - CLI module verified'"
   },
   "dependencies": {
-    "@goldensheepai/shep-core": "workspace:*",
-    "@goldensheepai/shep-sheplang": "workspace:*",
-    "@goldensheepai/shep-shepthon": "workspace:*",
+    "@goldensheepai/shep-core": "^0.1.4",
+    "@goldensheepai/shep-sheplang": "^0.1.4",
+    "@goldensheepai/shep-shepthon": "^0.1.4",
     "commander": "^11.1.0"
   },
   "devDependencies": {

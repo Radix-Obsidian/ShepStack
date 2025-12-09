@@ -1,0 +1,156 @@
+// ============================================
+// 📸 ShepLang Demo: Data Modeling Fundamentals
+// ============================================
+
+app "DataModelDemo"
+
+// 📸 Screenshot here: Basic data types showcase
+// All primitive types with validation
+data UserProfile {
+  // Text and string types
+  username: text (required, min: 3, max: 20, unique)
+  bio: text (max: 500)
+  
+  // Numeric types
+  age: number (min: 13, max: 120)
+  score: number (default: 0, min: 0)
+  
+  // Specialized types
+  email: email (required)
+  website: url
+  phone: phone
+  
+  // Date and time
+  birthDate: date
+  lastLogin: datetime (auto)
+  
+  // Boolean and choices
+  isActive: boolean (default: true)
+  role: enum(user, moderator, admin, super_admin)
+  
+  // File handling
+  avatar: image
+  resume: file
+}
+
+// 📸 Screenshot here: Relationships and foreign keys
+data Company {
+  name: text (required)
+  industry: enum(tech, finance, healthcare, retail, other)
+  founded: date
+  employeeCount: number (min: 1)
+}
+
+data Employee {
+  company: Company (required)  // Foreign key relationship
+  profile: UserProfile (required)
+  position: text (required)
+  salary: money (min: 0)
+  startDate: date (required)
+  department: enum(engineering, sales, marketing, hr, finance)
+}
+
+// 📸 Screenshot here: One-to-many relationships
+data Project {
+  company: Company (required)
+  name: text (required)
+  description: text
+  status: enum(planning, active, completed, cancelled)
+  budget: money (min: 0)
+  deadline: date
+}
+
+data ProjectMember {
+  project: Project (required)  // Belongs to project
+  employee: Employee (required) // Belongs to employee
+  role: enum(lead, developer, designer, tester)
+  joinedAt: datetime (auto)
+}
+
+// 📸 Screenshot here: Lists and computed fields
+data Invoice {
+  company: Company (required)
+  invoiceNumber: text (required, unique)
+  issueDate: date (auto)
+  dueDate: date (required)
+  status: enum(draft, sent, paid, overdue)
+  
+  // One-to-many relationship
+  items: list(InvoiceItem)
+  
+  // Computed field (calculated from items)
+  total: money (computed)
+  tax: money (computed, default: 0)
+}
+
+data InvoiceItem {
+  invoice: Invoice (required)
+  description: text (required)
+  quantity: number (required, min: 1)
+  unitPrice: money (required, min: 0)
+  total: money (computed)
+}
+
+// 📸 Screenshot here: Complex constraints and validation
+data UserAccount {
+  profile: UserProfile (required, unique)
+  
+  // Password with complex requirements
+  password: text (required, min: 8) {
+    // Custom validation can be added here
+    // Must contain uppercase, lowercase, numbers, symbols
+  }
+  
+  // Account settings
+  twoFactorEnabled: boolean (default: false)
+  loginAttempts: number (default: 0, max: 5)
+  
+  // Subscription with plan limits
+  plan: enum(free, basic, pro, enterprise)
+  storageUsed: number (default: 0)
+  storageLimit: number (computed) {
+    // Calculated based on plan
+  }
+  
+  // Timestamps
+  createdAt: datetime (auto)
+  updatedAt: datetime (auto)
+  lastPasswordChange: datetime
+}
+
+// 📸 Screenshot here: Enums with complex values
+data Notification {
+  user: UserAccount (required)
+  type: enum(
+    system_update,
+    security_alert,
+    payment_received,
+    project_assigned,
+    deadline_reminder,
+    mention,
+    like,
+    comment,
+    follow
+  )
+  
+  priority: enum(low, medium, high, urgent)
+  
+  title: text (required)
+  message: text (required)
+  
+  isRead: boolean (default: false)
+  createdAt: datetime (auto)
+  
+  // Optional related entity
+  relatedProject: Project
+  relatedCompany: Company
+}
+
+// This demonstrates ShepLang's type system:
+// - Primitive types with validation
+// - Relationships (foreign keys)
+// - One-to-many with lists
+// - Computed fields
+// - Complex enums
+// - Auto-generated fields
+// - Comprehensive validation rules

@@ -6,7 +6,7 @@
  */
 
 import { writeFileSync } from "node:fs";
-import { ShepSpec, Entity, Field } from "@shep/core";
+import { ShepSpec, Entity, Field } from "@goldensheepai/shep-core";
 
 /**
  * Generate all styling assets for the frontend.

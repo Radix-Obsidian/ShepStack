@@ -1,0 +1,57 @@
+app "TaskMaster"
+
+// A simple task manager that showcases ShepLang's AI-native features
+
+data Task {
+  title: text (required, min: 3, max: 100)
+  description: text
+  priority: ai("classify as low, medium, high, urgent based on the title and description")
+  sentiment: ai("analyze if the task sounds stressful or relaxed")
+  dueDate: date
+  status: enum(todo, in_progress, done)
+  createdAt: datetime (auto)
+}
+
+data User {
+  email: text (required, email)
+  name: text (required)
+  role: enum(admin, member)
+}
+
+view TaskList {
+  show: [title, priority, status, dueDate]
+  filter: status
+  sort: [priority, dueDate]
+  actions: [create, edit, delete]
+}
+
+view TaskDetail {
+  show: [title, description, priority, sentiment, status, dueDate]
+  actions: [edit, complete]
+}
+
+flow CreateTask {
+  screen: TaskForm
+  on submit:
+    validate Task
+    if ai(title, "sounds like an emergency") {
+      set priority = urgent
+      alert manager
+    }
+    save Task
+    redirect TaskList
+}
+
+action AutoPrioritize {
+  for each Task where status = todo {
+    if ai(description, "mentions deadline or urgent") {
+      set priority = high
+    }
+  }
+}
+
+rule EscalateOverdue {
+  when: dueDate < today AND status != done
+  then: set priority = urgent
+  notify: manager
+}

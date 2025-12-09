@@ -4,7 +4,7 @@
  */
 
 import { writeFileSync } from "node:fs";
-import { ShepSpec } from "@shep/core";
+import { ShepSpec } from "@goldensheepai/shep-core";
 
 export function generateRequirements(spec: ShepSpec, outputDir: string, hasAI: boolean): void {
   let requirements = `# Generated requirements for ${spec.app}

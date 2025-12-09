@@ -4,7 +4,7 @@
  */
 
 import { writeFileSync } from "node:fs";
-import { ShepSpec } from "@shep/core";
+import { ShepSpec } from "@goldensheepai/shep-core";
 
 export function generateAuthentication(spec: ShepSpec, outputDir: string): void {
   generateAuthPython(spec, outputDir);

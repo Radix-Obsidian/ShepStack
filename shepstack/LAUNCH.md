@@ -20,26 +20,39 @@ Deploy to production
 
 ## Where to Publish & Why
 
-### 1. npm (Primary Distribution) ✅ Ready
+### 1. npm (Primary Distribution) ✅ Launched
+
+**Status:** All packages published and working!
 
 **Why npm?**
 - ShepLang compiler is TypeScript, npm is the native distribution
 - Developers can install with `npm install -g @goldensheepai/shep-cli`
 - Integrates with existing JS/TS toolchains
 
-**Packages:**
+**Published Packages (v0.1.4):**
 ```
-@goldensheepai/shep-cli      # The CLI (shep compile, shep draft, etc.)
-@goldensheepai/shep-core     # Parser, verifier, types
-@goldensheepai/shep-lsp      # Language Server Protocol
-@goldensheepai/shep-sheplang # TypeScript code generation
-@goldensheepai/shep-shepthon # Python code generation
+@goldensheepai/shep-cli       # The CLI (shep compile, shep verify, etc.)
+@goldensheepai/shep-core      # Parser, verifier, types, AST
+@goldensheepai/shep-lsp       # Language Server Protocol
+@goldensheepai/shep-sheplang  # TypeScript/React code generation
+@goldensheepai/shep-shepthon  # Python/FastAPI code generation
 ```
 
-**Publish Command:**
+**Installation:**
 ```bash
-pnpm publish -r --access public
+# Install CLI globally
+npm install -g @goldensheepai/shep-cli
+
+# Verify it works
+shep --version
+shep --help
 ```
+
+**Fixed Issues:**
+- ✅ Resolved workspace:* protocol errors
+- ✅ All dependencies now publish correctly
+- ✅ Source imports use @goldensheepai/* scope
+- ✅ npm install works without errors
 
 ### 2. VS Code Marketplace 🔜 Next Step
 
@@ -143,12 +156,15 @@ pnpm publish -r --access public
 ## Launch Checklist
 
 ### Before Launch
-- [ ] npm packages published
+- [x] npm packages published (v0.1.4)
+- [x] All dependencies fixed (workspace:* → npm versions)
+- [x] README.md updated with correct install instructions
+- [x] SETUP.md updated with npm installation guide
 - [ ] VS Code extension published
 - [ ] GitHub README polished
 - [ ] GitHub Discussions enabled
 - [ ] GitHub Wiki created
-- [ ] v0.1.0 release created
+- [ ] v0.1.4 release created (npm packages live)
 - [ ] Demo video recorded
 - [ ] Blog post written
 

@@ -4,7 +4,7 @@
  * Compiles Shep source code to Python.
  */
 
-import { NotImplementedError } from "@shep/core";
+import { NotImplementedError } from "@goldensheepai/shep-core";
 
 /**
  * Compiles Shepthon source code to Python.

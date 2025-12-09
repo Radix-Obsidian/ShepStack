@@ -3,8 +3,8 @@
  * Transforms Shepthon spec to Python source code.
  */
 
-import type { ShepSpec } from "@shep/core";
-import { NotImplementedError } from "@shep/core";
+import type { ShepSpec } from "@goldensheepai/shep-core";
+import { NotImplementedError } from "@goldensheepai/shep-core";
 
 /**
  * Generates Python code from a Shepthon spec.

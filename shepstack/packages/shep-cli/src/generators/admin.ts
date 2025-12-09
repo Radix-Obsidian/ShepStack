@@ -4,7 +4,7 @@
  */
 
 import { writeFileSync } from "node:fs";
-import { ShepSpec, Field } from "@shep/core";
+import { ShepSpec, Field } from "@goldensheepai/shep-core";
 
 export function generateAdminDashboard(spec: ShepSpec, outputDir: string): void {
   generateAdminHTML(spec, outputDir);

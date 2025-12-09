@@ -9,7 +9,7 @@ import { Command } from "commander";
 import * as fs from "fs";
 import * as path from "path";
 import { spawn, ChildProcess } from "child_process";
-import { parseSpec, verifySpec } from "@shep/core";
+import { parseSpec, verifySpec } from "@goldensheepai/shep-core";
 
 // ============================================================================
 // Command Definition

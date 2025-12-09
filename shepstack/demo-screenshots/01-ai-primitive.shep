@@ -1,0 +1,20 @@
+// Screenshot 1: AI as a First-Class Primitive
+// This shows how ai() is built into the language
+
+app "SentimentAnalyzer"
+
+data CustomerReview {
+  text: text (required)
+  
+  // AI is a language verb, not an API call
+  sentiment: ai("classify as positive, neutral, negative")
+  urgency: ai("rate urgency 1-10 based on tone")
+  summary: ai("summarize in one sentence")
+}
+
+action AnalyzeReview {
+  if ai(text, "sounds frustrated or angry") {
+    set urgency = 10
+    alert support-team
+  }
+}

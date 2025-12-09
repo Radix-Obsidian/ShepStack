@@ -3,8 +3,8 @@
  * Transforms Sheplang spec to TypeScript source code.
  */
 
-import type { ShepSpec } from "@shep/core";
-import { NotImplementedError } from "@shep/core";
+import type { ShepSpec } from "@goldensheepai/shep-core";
+import { NotImplementedError } from "@goldensheepai/shep-core";
 
 /**
  * Generates TypeScript code from a Sheplang spec.

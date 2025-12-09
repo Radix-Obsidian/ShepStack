@@ -1,6 +1,6 @@
 {
   "name": "@goldensheepai/shep-sheplang",
-  "version": "0.1.2",
+  "version": "0.1.4",
   "description": "Sheplang: TypeScript-targeting DSL for full-stack applications",
   "repository": "https://github.com/Radix-Obsidian/ShepStack/tree/main/packages/sheplang",
   "homepage": "https://github.com/Radix-Obsidian/ShepStack",
@@ -21,7 +21,7 @@
     "test": "node --test dist/tests/sheplang-smoke.test.js"
   },
   "dependencies": {
-    "@goldensheepai/shep-core": "workspace:*"
+    "@goldensheepai/shep-core": "^0.1.4"
   },
   "devDependencies": {
     "@types/node": "^20.10.0",

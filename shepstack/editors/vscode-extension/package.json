@@ -2,7 +2,7 @@
   "name": "sheplang",
   "displayName": "ShepLang",
   "description": "Language support for ShepLang - AI-native programming language",
-  "version": "0.1.2",
+  "version": "0.1.4",
   "publisher": "Radix-Obsidian",
   "engines": {
     "vscode": "^1.85.0"

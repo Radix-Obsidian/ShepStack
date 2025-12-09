@@ -13,7 +13,7 @@
  */
 
 import { writeFileSync } from "node:fs";
-import { ShepSpec, Field, Rule, FlowStep } from "@shep/core";
+import { ShepSpec, Field, Rule, FlowStep } from "@goldensheepai/shep-core";
 
 interface AIField {
   entity: string;

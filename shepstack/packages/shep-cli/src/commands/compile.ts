@@ -5,7 +5,7 @@
 import { Command } from "commander";
 import { readFileSync, writeFileSync, mkdirSync } from "node:fs";
 import { dirname, basename } from "node:path";
-import { parseSpec, verifySpec, ShepSpec, VerificationResult, Rule, FlowStep, Field } from "@shep/core";
+import { parseSpec, verifySpec, ShepSpec, VerificationResult, Rule, FlowStep, Field } from "@goldensheepai/shep-core";
 import { generateAuthentication, generateAdminDashboard, generateRequirements, generateStyles, generateAIClient, generateAIRoutes, hasAIPrimitives } from "../generators/index.js";
 
 export const compileCommand = new Command("compile")

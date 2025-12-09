@@ -4,7 +4,7 @@
  * Compiles Sheplang source code to TypeScript.
  */
 
-import { NotImplementedError } from "@shep/core";
+import { NotImplementedError } from "@goldensheepai/shep-core";
 
 /**
  * Compiles Sheplang source code to TypeScript.

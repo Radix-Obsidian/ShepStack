@@ -5,7 +5,7 @@
 import { describe, it } from "node:test";
 import assert from "node:assert";
 import { compileShepthonToPython } from "../src/index.js";
-import { NotImplementedError } from "@shep/core";
+import { NotImplementedError } from "@goldensheepai/shep-core";
 
 describe("Shepthon compiler", () => {
   it("should throw NotImplementedError", () => {

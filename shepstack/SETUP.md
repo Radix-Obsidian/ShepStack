@@ -1,22 +1,55 @@
 # ShepLang Development Setup
 
+## Quick Start
+
+### For Users (Install CLI)
+
+The easiest way to use ShepLang is to install the CLI from npm:
+
+```bash
+# Install globally
+npm install -g @goldensheepai/shep-cli
+
+# Verify installation
+shep --version
+shep compile --help
+```
+
+### For Contributors (Development Setup)
+
+If you want to contribute or modify the compiler:
+
+```bash
+# Clone the repo
+git clone https://github.com/Radix-Obsidian/ShepStack.git
+cd ShepStack/shepstack
+
+# Install dependencies (requires pnpm)
+pnpm install
+
+# Build all packages
+pnpm build
+
+# Test the CLI
+pnpm -C packages/shep-cli exec shep --help
+```
+
 ## Repository Structure
 
-This is the ShepLang compiler and toolchain mono-repo:
+This is the ShepLang compiler and toolchain mono-repo (pnpm monorepo):
 
 ```
 shepstack/
 ├── packages/
-│   ├── shep-core/          # Core language types, tokens, AST, type system
-│   ├── sheplang/           # TypeScript-targeting DSL compiler
-│   ├── shepthon/           # Python-targeting compiler
-│   └── shep-cli/           # Developer CLI tool
+│   ├── shep-core/          # Core language: parser, verifier, AST, types
+│   ├── sheplang/           # TypeScript-targeting code generator
+│   ├── shepthon/           # Python-targeting code generator
+│   ├── shep-cli/           # CLI tool (@goldensheepai/shep-cli on npm)
+│   └── shep-lsp/           # Language Server Protocol support
 ├── editors/
-│   └── vscode-extension/   # VS Code extension (skeleton)
-├── packages/
-│   └── shep-lsp/           # Language Server Protocol (skeleton)
+│   └── vscode-extension/   # VS Code extension
 ├── examples/
-│   └── budget-dashboard/   # Reference implementation example
+│   └── budget-dashboard/   # Reference implementation
 ├── docs/
 │   ├── spec/               # Language specifications
 │   └── roadmap/            # Development roadmap
@@ -26,60 +59,44 @@ shepstack/
 └── README.md               # Project overview
 ```
 
-## Installation
+## Prerequisites
 
-1. **Install dependencies**:
-   ```bash
-   cd shepstack
-   pnpm install
-   ```
+- **Node.js:** 20 or higher
+- **pnpm:** 8 or higher (for development)
+- **npm:** 10 or higher (for installing the published CLI)
 
-2. **Build all packages**:
-   ```bash
-   pnpm build
-   ```
+## NPM Packages
 
-3. **Run tests**:
-   ```bash
-   pnpm test
-   ```
+The following packages are published to npm under the `@goldensheepai` scope:
 
-## Project Structure
+- **`@goldensheepai/shep-core`** — Core language library
+  - Parser, verifier, AST, type system
+  - Used by: shep-cli, shep-lsp, code generators
 
-### Core Packages
+- **`@goldensheepai/shep-cli`** — Command-line interface (main entry point)
+  - `shep compile` - Compile Shep specifications
+  - `shep verify` - Type check without generating code
+  - `shep dev` - Development server with hot reload
+  - Install with: `npm install -g @goldensheepai/shep-cli`
 
-- **`@shep/core`**: Foundation types and interfaces
-  - Token types and lexer scaffold
-  - AST node definitions
-  - Type system primitives
-  - Parser scaffold
+- **`@goldensheepai/shep-sheplang`** — TypeScript code generator
+  - Transforms Shep specs to TypeScript/React
+  - Used by shep-cli for frontend compilation
 
-- **`@shep/sheplang`**: TypeScript-targeting compiler
-  - Sheplang-specific parsing (Phase 2)
-  - TypeScript code generation
-  - Configuration options
+- **`@goldensheepai/shep-shepthon`** — Python code generator
+  - Transforms Shep specs to Python/FastAPI
+  - Used by shep-cli for backend compilation
 
-- **`@shep/shepthon`**: Python-targeting compiler
-  - Shepthon-specific parsing (Phase 2)
-  - Python code generation
-  - Configuration options
-
-- **`@shep/cli`**: Developer command-line interface
-  - `shep compile` - Compile Shep files
-  - `shep dev` - Development server (Phase 3)
-  - `shep new` - Project scaffolding (Phase 3)
+- **`@goldensheepai/shep-lsp`** — Language Server Protocol
+  - IDE integration (VS Code, Cursor, Windsurf)
+  - Provides diagnostics, completion, hover info
 
 ### Editor Integration
 
-- **`@shep/lsp`**: Language Server Protocol
-  - Basic LSP scaffolding
-  - Document management
-  - Extensible for Phase 3 features
-
-- **`vscode-extension`**: VS Code extension
-  - Language registration
-  - Extension activation
-  - LSP client wiring (Phase 3)
+- **`vscode-extension`** — VS Code extension
+  - Syntax highlighting
+  - Language Server support
+  - Diagnostics and code completion
 
 ### Examples & Documentation
 

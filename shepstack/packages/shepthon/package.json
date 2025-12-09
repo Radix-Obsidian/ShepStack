@@ -1,6 +1,6 @@
 {
   "name": "@goldensheepai/shep-shepthon",
-  "version": "0.1.2",
+  "version": "0.1.4",
   "description": "Shepthon: Python-targeting compiler for Shep",
   "repository": "https://github.com/Radix-Obsidian/ShepStack/tree/main/packages/shepthon",
   "homepage": "https://github.com/Radix-Obsidian/ShepStack",
@@ -21,7 +21,7 @@
     "test": "node --test dist/tests/shepthon-smoke.test.js"
   },
   "dependencies": {
-    "@goldensheepai/shep-core": "workspace:*"
+    "@goldensheepai/shep-core": "^0.1.4"
   },
   "devDependencies": {
     "@types/node": "^20.10.0",

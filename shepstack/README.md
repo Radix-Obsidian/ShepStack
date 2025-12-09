@@ -158,22 +158,37 @@ shepstack/
 
 ## Getting Started
 
-### Install
+### Install CLI Globally
+
+#### Option 1: From npm (Recommended)
+
+```bash
+# Install the CLI globally
+npm install -g @goldensheepai/shep-cli
+
+# Verify installation
+shep --version
+shep --help
+```
+
+#### Option 2: From Source (Development)
 
 ```bash
 # Clone the repo
 git clone https://github.com/Radix-Obsidian/ShepStack.git
 cd ShepStack/shepstack
 
-# Install dependencies
+# Install dependencies (requires pnpm)
 pnpm install
 
 # Build the compiler
 pnpm build
 
-# Link CLI
+# Link CLI globally
 cd packages/shep-cli && pnpm link --global
 ```
+
+**Requirements:** Node.js 20+, pnpm 8+
 
 ### Write Your First Program
 

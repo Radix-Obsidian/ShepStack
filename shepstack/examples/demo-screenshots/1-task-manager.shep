@@ -1,0 +1,40 @@
+// ============================================
+// ShepLang Demo: AI-Native Task Manager
+// ============================================
+
+app "TaskMaster"
+
+// Define your data with AI-powered fields
+data Task {
+  title: text (required, min: 3)
+  description: text
+  
+  // AI as a first-class language primitive
+  priority: ai("classify as low, medium, high, urgent")
+  sentiment: ai("analyze if stressful or relaxed")
+  
+  dueDate: date
+  status: enum(todo, in_progress, done)
+  createdAt: datetime (auto)
+}
+
+// Define screens declaratively  
+view TaskList {
+  show: [title, priority, status, dueDate]
+  filter: status
+  sort: [priority desc, dueDate asc]
+  actions: [create, edit, delete]
+}
+
+// AI-powered automation
+flow CreateTask {
+  screen: TaskForm
+  on submit:
+    validate Task
+    if ai(title, "sounds like an emergency") {
+      set priority = urgent
+      alert manager
+    }
+    save Task
+    redirect TaskList
+}
